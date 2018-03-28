@@ -1,0 +1,26 @@
+{
+  "name": "@shanknet/http-request",
+  "version": "0.0.1",
+  "description": "Simple wrapper module for making http requests on the client.",
+  "license": "MIT",
+  "main": "index.ts",
+  "author": "clsop <shanknet85@gmail.com>",
+  "scripts": {
+    "pretest": "rm -f src/*.js && rm -f src/**/*.js && rm -f test/*.js && tsc",
+    "test": "mocha --opts mocha.opts test/"
+  },
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  },
+  "devDependencies": {
+    "@types/should": "^13.0.0",
+    "@types/sinon": "^4.3.0",
+    "mocha": "^5.0.4",
+    "mocha-typescript": "^1.1.12",
+    "should": "^13.2.1",
+    "sinon": "^4.4.2"
+  },
+  "dependencies": {
+    "@types/http-request": "0.0.1"
+  }
+}
