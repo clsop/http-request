@@ -1,66 +1,51 @@
-'use strict';
-
-import ErrorMessage from './Errors';
-import ResponseHandler from './ResponseHandler';
-import SuccessResponse from './Response';
-import FailResponse from './FailResponse';
-import HttpRequestError from './exceptions/HttpRequestError';
-import InvalidFunctionError from './exceptions/InvalidFunctionError';
-
-import Config from './Config';
-
-const eventHook = (promiseType, resolver) => {
-    return e => {
-        let xhr = e.target;
-        let responseHandler = new ResponseHandler(xhr);
-
-        resolver(responseHandler.isValidResponse() ? responseHandler.getResponse(promiseType) : null);
-    };
-};
-
-const validUrl = (url) => {
-    return /^(http|https):\/\/(?:w{3}\.)?.+(?:\.).+/.test(url);
-};
-
-export class HttpRequest {
-    constructor(url = null, eagerness, useCredentials = false, username = null, password = null) {
-        let xhr = new XMLHttpRequest();
-
-        Config();
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Errors_1 = require("./Errors");
+var ResponseHandler_1 = require("./ResponseHandler");
+var HttpRequestError_1 = require("./exceptions/HttpRequestError");
+var HttpRequest = /** @class */ (function () {
+    function HttpRequest(url, eagerness, useCredentials, username, password) {
+        var _this = this;
+        this.eventHook = function (promiseType, resolver) {
+            return function (e) {
+                var xhr = e.target;
+                var responseHandler = new ResponseHandler_1.default(xhr);
+                resolver(responseHandler.isValidResponse() ? responseHandler.getResponse(promiseType) : null);
+            };
+        };
+        this.validUrl = function (url) { return /^(http|https):\/\/(?:w{3}\.)?.+(?:\.).+/.test(url); };
+        var xhr = new XMLHttpRequest();
         this.url = url;
         this.useCredentials = useCredentials;
         this.username = username;
         this.password = password;
         this.methods = new Set(['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTION']);
-        this.promise = new Promise((resolve, reject) => {
-            let failed = eventHook(1, reject);
-
-            xhr.addEventListener('load', eventHook(0, resolve));
+        this.promise = new Promise(function (resolve, reject) {
+            var failed = _this.eventHook(1, reject);
+            xhr.addEventListener('load', _this.eventHook(0, resolve));
             xhr.addEventListener('error', failed);
             xhr.addEventListener('abort', failed);
         });
-
         this.headers = new Map();
         this.xhr = xhr;
         this.setPatience(eagerness);
     }
-
-    setPatience(eagerness) {
+    HttpRequest.prototype.setPatience = function (eagerness) {
+        if (eagerness === void 0) { eagerness = "WHENEVER"; }
         switch (eagerness) {
-            case 'now':
+            case "NOW":
                 this.xhr.timeout = 100;
                 break;
-            case 'hurry':
+            case "HURRY":
                 this.xhr.timeout = 500;
                 break;
-            case 'no hurry':
+            case "NO_HURRY":
                 this.xhr.timeout = 2000;
                 break;
-            case 'patient':
+            case "PATIENT":
                 this.xhr.timeout = 10000;
                 break;
-            case 'real patient':
+            case "REAL_PATIENT":
                 this.xhr.timeout = 30000;
                 break;
             default:
@@ -68,106 +53,51 @@ export class HttpRequest {
                 this.xhr.timeout = 0;
                 break;
         }
-    }
-
-    setUrl(url) {
-        if (!validUrl(url)) {
-            throw new HttpRequestError(ErrorMessage.VALID_URL);
+    };
+    HttpRequest.prototype.setUrl = function (url) {
+        if (!this.validUrl(url)) {
+            throw new HttpRequestError_1.default(Errors_1.default.VALID_URL, "The url supplied was invalid: " + url);
         }
-
         this.url = url;
-    }
-
-    setHeader(header, value) {
+    };
+    HttpRequest.prototype.setHeader = function (header, value) {
         if (this.headers.has(header)) {
-            throw new HttpRequestError(ErrorMessage.HEADER_DEFINED);
+            throw new HttpRequestError_1.default(Errors_1.default.HEADER_DEFINED, "This header was already defined in the instance: " + header);
         }
-
         this.headers.set(header, value);
-    }
-
-    useCreadentials(useThem = true) {
-        this.useCreadentials = useThem;
-    }
-
-    setProgressHandler(callback = null) {
-        if (callback === null || typeof callback !== 'function' || callback.length !== 1) {
-            throw new InvalidFunctionError(ErrorMessage.FUNCTION_MISSING_PARAM);
-        }
-
+    };
+    HttpRequest.prototype.useCreadentials = function (useThem) {
+        if (useThem === void 0) { useThem = true; }
+        this.useCredentials = useThem;
+    };
+    HttpRequest.prototype.setProgressHandler = function (callback) {
         this.xhr.addEventListener('progress', callback);
-    }
-
-    then(successCallback = null) {
-        if (successCallback === null || typeof successCallback !== 'function') {
-            throw new InvalidFunctionError(ErrorMessage.FUNCTION_CALLBACK);
-        }
-
-        return this.promise.then(successCallback);
-    }
-
-    catch (failCallback = null) {
-        if (failCallback === null || typeof failCallback !== 'function') {
-            throw new InvalidFunctionError(ErrorMessage.FUNCTION_CALLBACK);
-        }
-
-        return this.promise.catch(failCallback);
-    }
-
-    cancel() {
+    };
+    HttpRequest.prototype.then = function (callback) {
+        return this.promise.then(callback);
+    };
+    HttpRequest.prototype.catch = function (callback) {
+        return this.promise.catch(callback);
+    };
+    HttpRequest.prototype.cancel = function () {
         this.xhr.abort();
-    }
-
-    send(method = 'GET', data = null) {
-        if (!validUrl(this.url)) {
-            throw new HttpRequestError(ErrorMessage.VALID_URL);
+    };
+    HttpRequest.prototype.send = function (method, data) {
+        var _this = this;
+        if (!this.validUrl(this.url)) {
+            throw new HttpRequestError_1.default(Errors_1.default.VALID_URL, "The url supplied was invalid: " + this.url);
         }
-
         // always async
-        this.xhr.open(typeof method === 'string' && this.methods.has(method) ? method : 'GET', this.url, true, this.username, this.password);
+        this.xhr.open(this.methods.has(method) ? method : 'GET', this.url, true, this.username, this.password);
         this.xhr.withCredentials = this.useCredentials;
-        this.headers.forEach((val, key) => {
-            this.xhr.setRequestHeader(key, val);
+        this.headers.forEach(function (val, key) {
+            _this.xhr.setRequestHeader(key, val);
         });
-
-        if (data !== null) this.xhr.send(data);
-        else this.xhr.send();
-    }
-}
-
-// browser env
-if (global.window) {
-    let descriptor = Object.create(null);
-    Object.defineProperties(descriptor, {
-        value: {
-            value: HttpRequest
-        },
-        configurable: {
-            value: false
-        },
-        enumerable: {
-            value: false
-        },
-        writable: {
-            value: false
-        }
-    });
-    let cfgDescriptor = Object.create(null);
-    Object.defineProperties(cfgDescriptor, {
-        value: {
-            value: Config
-        },
-        configurable: {
-            value: false
-        },
-        enumerable: {
-            value: false
-        },
-        writable: {
-            value: false
-        }
-    });
-
-    Object.defineProperty(HttpRequest, 'config', cfgDescriptor);
-    Object.defineProperty(window, 'Request', descriptor);
-}
+        if (data)
+            this.xhr.send(data);
+        else
+            this.xhr.send();
+    };
+    return HttpRequest;
+}());
+exports.HttpRequest = HttpRequest;

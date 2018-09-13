@@ -5,12 +5,12 @@
         "noImplicitAny": false,
         "removeComments": false,
         "preserveConstEnums": true,
-        "experimentalDecorators": false,
+        "experimentalDecorators": true,
         "sourceMap": false,
         "skipLibCheck": false,
         "allowJs": false,
         "target": "es5",
-        "lib": ["es6"],
+        "lib": ["es6", "dom"],
         "typeRoots": [
             "node_modules/@types/",
             "./typings"

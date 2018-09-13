@@ -1,3 +1,1 @@
-import HttpRequest from './src/http-request';
-
-export default HttpRequest;
+export { HttpRequest } from './src/HttpRequest';

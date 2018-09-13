@@ -10,12 +10,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var HttpError_1 = require("./HttpError");
-var HttpRequestError = /** @class */ (function (_super) {
-    __extends(HttpRequestError, _super);
-    function HttpRequestError(message, info) {
-        return _super.call(this, 'HttpRequestError', message, info) || this;
+var HttpError = /** @class */ (function (_super) {
+    __extends(HttpError, _super);
+    function HttpError(name, message, info) {
+        var _this = _super.call(this, message) || this;
+        _this.toString = function () { return _this.name + ": " + _this.message + "\r\ninfo: " + _this.info; };
+        _this.info = info;
+        _this.name = name;
+        return _this;
     }
-    return HttpRequestError;
-}(HttpError_1.default));
-exports.default = HttpRequestError;
+    return HttpError;
+}(Error));
+exports.default = HttpError;

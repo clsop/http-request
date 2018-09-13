@@ -1,43 +1,35 @@
-'use strict';
-
-export default class Reponse {
-	constructor(status = null, statusText = '', responseType = '', responseText = '', responseData = null) {
-		if (status === null && !(typeof status === 'number')) {
-			throw new TypeError('status must be a number');
-		}
-
-		this.status = status;
-		this.statusText = statusText;
-		this.responseText = responseText;
-		this.responseType = responseType;
-		this.responseData = responseData;
-	}
-
-	setHeaders(headers) {
-		this.headers = headers;
-	}
-
-	getHeaders() {
-		return this.headers;
-	}
-
-	getStatus() {
-		return this.status;
-	}
-
-	getStatusText() {
-		return this.statusText;
-	}
-
-	getResponseText() {
-		return this.responseText;
-	}
-
-	getResponseType() {
-		return this.responseType;
-	}
-
-	getResponseData() {
-		return this.responseData;
-	}
-}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Reponse = /** @class */ (function () {
+    function Reponse(status, statusText, responseType, responseText, responseData) {
+        if (responseData === void 0) { responseData = null; }
+        this.status = status;
+        this.statusText = statusText;
+        this.responseType = responseType;
+        this.responseText = responseText;
+        this.responseData = responseData;
+    }
+    Reponse.prototype.setHeaders = function (headers) {
+        this.headers = headers;
+    };
+    Reponse.prototype.getHeaders = function () {
+        return this.headers;
+    };
+    Reponse.prototype.getStatus = function () {
+        return this.status;
+    };
+    Reponse.prototype.getStatusText = function () {
+        return this.statusText;
+    };
+    Reponse.prototype.getResponseText = function () {
+        return this.responseText;
+    };
+    Reponse.prototype.getResponseType = function () {
+        return this.responseType;
+    };
+    Reponse.prototype.getResponseData = function () {
+        return this.responseData;
+    };
+    return Reponse;
+}());
+exports.default = Reponse;
