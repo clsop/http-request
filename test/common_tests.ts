@@ -2,7 +2,6 @@ import * as sinon from 'sinon';
 import 'should';
 import { suite, test } from "mocha-typescript";
 
-import { IHttpRequest } from '../src/IHttpRequest';
 import { HttpRequest } from '../src/HttpRequest';
 import Response from '../src/Response';
 

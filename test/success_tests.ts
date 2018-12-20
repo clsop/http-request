@@ -1,8 +1,7 @@
 import * as sinon from 'sinon';
 import 'should';
-import { suite, test } from "mocha-typescript";
+import { suite, test, skip } from "mocha-typescript";
 
-import { IHttpRequest } from '../src/IHttpRequest';
 import { HttpRequest } from '../src/HttpRequest';
 
 @suite("success request tests")
@@ -45,8 +44,7 @@ class RequestSuccessTest {
         }, '{ "test": "test" }');
     }
 
-    // @test('should use Content-Type to determine response type')
-    // public shouldUseContentType(done: () => void) {
-
-    // }
+    @test.skip
+    //@test("should use Content-Type to determine response type")
+    public shouldUseContentType() { }
 }

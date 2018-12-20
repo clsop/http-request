@@ -1,0 +1,5 @@
+--full-trace
+--bail
+--recursive test/tmp/test
+--ui mocha-typescript
+*.js

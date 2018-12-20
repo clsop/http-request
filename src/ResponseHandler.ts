@@ -34,7 +34,7 @@ export default class ResponseHandler<T> {
             return headers;
         }
 
-        return null;
+        return new Map<string, string>();
     };
 
     public isValidResponse(): boolean {

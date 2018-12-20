@@ -2,24 +2,21 @@ import ErrorMessage from './Errors';
 import ResponseHandler from './ResponseHandler';
 import HttpRequestError from './exceptions/HttpRequestError';
 
-import { IHttpRequest, Eagerness } from './IHttpRequest';
-import { IBaseResponse } from './IResponse';
-import { Resolver } from './Resolver';
-
 export class HttpRequest<T> implements IHttpRequest<T> {
     private readonly headers: Map<string, string>;
     private readonly methods: Set<string>;
 
     private url: string;
     private useCredentials: boolean;
-    private username: string;
-    private password: string;
+    private username?: string;
+    private password?: string;
 
     private promise: Promise<IBaseResponse<T>>;
     private xhr: XMLHttpRequest;
 
     constructor(url: string, eagerness?: Eagerness,
-        useCredentials?: boolean, username?: string, password?: string) {
+        useCredentials: boolean = false,
+        username?: string, password?: string) {
         let xhr: XMLHttpRequest = new XMLHttpRequest();
 
         this.url = url;
@@ -111,7 +108,7 @@ export class HttpRequest<T> implements IHttpRequest<T> {
         this.xhr.abort();
     }
 
-    public send(method?: string, data?: T) {
+    public send(method: string = "GET", data?: T) {
         if (!this.validUrl(this.url)) {
             throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${this.url}`);
         }
@@ -125,7 +122,7 @@ export class HttpRequest<T> implements IHttpRequest<T> {
         });
 
         if (data)
-            this.xhr.send(data);
+            this.xhr.send(<any>data);
         else
             this.xhr.send();
     }

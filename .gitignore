@@ -1,4 +1,15 @@
-node_modules/
-**/*~
+# npm
+npm-debug.log
+node_modules
 
+# pnpm
+.pnpm-store
+pnm-debug.log
+
+# test
+coverage
+test/tmp
+.nyc_output
+
+# sublime
 *sublime-{project,workspace}
