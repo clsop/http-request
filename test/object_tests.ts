@@ -3,8 +3,8 @@ import 'should';
 import { describe, before, after, beforeEach, afterEach } from "mocha";
 import { suite, test } from "mocha-typescript";
 
-import ErrorMessage from '../src/Errors';
-import { HttpRequest } from '../src/HttpRequest';
+import ErrorMessage from '../src/errors';
+import { HttpRequest } from '../src/http_request';
 
 describe("object tests", () => {
     let requests: Array<sinon.SinonFakeXMLHttpRequest> = [];

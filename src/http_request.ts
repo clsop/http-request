@@ -1,6 +1,6 @@
-import ErrorMessage from './Errors';
-import ResponseHandler from './ResponseHandler';
-import HttpRequestError from './exceptions/HttpRequestError';
+import ErrorMessage from './errors';
+import ResponseHandler from './response_handler';
+import HttpRequestError from './exceptions/http_request_error';
 
 export class HttpRequest<T> implements IHttpRequest<T> {
     private readonly headers: Map<string, string>;
@@ -88,8 +88,8 @@ export class HttpRequest<T> implements IHttpRequest<T> {
         this.headers.set(header, value);
     }
 
-    public useCreadentials(useThem: boolean = true) {
-        this.useCredentials = useThem;
+    public setUseCredentials(useCredentials: boolean) {
+        this.useCredentials = useCredentials;
     }
 
     public setProgressHandler(callback: (this: XMLHttpRequest, e: ProgressEvent) => any) {

@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import 'should';
 import { suite, test, skip } from "mocha-typescript";
 
-import { HttpRequest } from '../src/HttpRequest';
+import { HttpRequest } from '../src/http_request';
 
 @suite("success request tests")
 class RequestSuccessTest {

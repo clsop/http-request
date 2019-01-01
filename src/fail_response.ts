@@ -1,4 +1,4 @@
-import Response from './Response';
+import Response from './response';
 
 export default class FailResponse<T> extends Response<T> implements IFailResponse<T> {
 	constructor(status: number, statusText: string,

@@ -1,7 +1,8 @@
-import ErrorMessage from './Errors';
-import Response from './Response';
-import FailResponse from './FailResponse';
-import HttpResponseError from './exceptions/HttpResponseError';
+import ErrorMessage from './errors';
+import Response from './response';
+import FailResponse from './fail_response';
+import HttpResponseError from './exceptions/http_response_error';
+import { ResponseType } from './response_type';
 
 /**
  * Handling data that goes onto a response
@@ -41,7 +42,7 @@ export default class ResponseHandler<T> {
         return this.xhr.status !== 0 && this.xhr.readyState === 4;
     }
 
-    public getResponse(promiseType: number): Response<T> {
+    public getResponse(responseType: ResponseType): Response<T> {
         //let contentType = this.xhr.getResponseHeader('Content-Type');
         let response = null;
         
@@ -59,10 +60,10 @@ export default class ResponseHandler<T> {
         //         break;
         // }
 
-        switch (promiseType) {
-        	case 0: response = new Response<T>(this.xhr.status, this.xhr.statusText, this.xhr.responseType, this.xhr.responseText,
+        switch (responseType) {
+        	case ResponseType.Success: response = new Response<T>(this.xhr.status, this.xhr.statusText, this.xhr.responseType, this.xhr.responseText,
                     this.xhr.responseType === 'document' ? this.xhr.responseXML : this.xhr.response); break;
-        	case 1: response = new FailResponse<T>(this.xhr.status, this.xhr.statusText, this.xhr.responseType, this.xhr.responseText,
+        	case ResponseType.Failure: response = new FailResponse<T>(this.xhr.status, this.xhr.statusText, this.xhr.responseType, this.xhr.responseText,
                     this.xhr.responseType === 'document' ? this.xhr.responseXML : this.xhr.response); break;
         }
 

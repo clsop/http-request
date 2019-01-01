@@ -2,8 +2,8 @@ import * as sinon from 'sinon';
 import 'should';
 import { suite, test } from "mocha-typescript";
 
-import { HttpRequest } from '../src/HttpRequest';
-import Response from '../src/Response';
+import { HttpRequest } from '../src/http_request';
+import Response from '../src/response';
 
 @suite("common request tests")
 class RequestTests {

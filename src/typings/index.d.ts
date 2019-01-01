@@ -32,12 +32,23 @@ interface IHttpRequest<T> {
 	setPatience(eagerness?: Eagerness): void;
 	setUrl(url: string): void;
 	setHeader(header: string, value: string): void;
-	useCreadentials(useThem: boolean): void;
+	setUseCredentials(useCredentials: boolean): void;
 	setProgressHandler(callback: (this: XMLHttpRequest, e: IProgressEvent) => any): void;
 	then(callback: (value: IBaseResponse<T>) => T | PromiseLike<T>): Promise<T>;
 	catch(callback: (reason: any) => T | PromiseLike<T>): Promise<T | IBaseResponse<T>>;
 	cancel(): void;
 	send(method?: string, data?: T): void;
+}
+
+type Data = string | Document | Blob | ArrayBuffer | ArrayBufferView | FormData | URLSearchParams | ReadableStream<Uint8Array>; 
+type Method = "GET" | "POST" | "PUT" | "HEAD" | "OPTIONS" | "PATCH" | "DELETE";
+interface IRequestApi<T> {
+	setHeader(header: string, value: string): void;
+	setTimeout(timeout: number): void;
+	setUrl(url: string): void;
+	setMethod(method: Method): void;
+	abort(): void;
+	execute(data?: Data): Promise<IBaseResponse<T>>;
 }
 
 type Resolver<T> = (value?: T | PromiseLike<T> | null) => void;
