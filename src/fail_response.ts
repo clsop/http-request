@@ -1,9 +1,9 @@
 import Response from './response';
 
 export default class FailResponse<T> extends Response<T> implements IFailResponse<T> {
-	constructor(status: number, statusText: string,
+	constructor(status: number, statusText: string, headers: Map<string, string>,
 		responseType: string, responseText: string, responseData: T) {
-		 super(status, statusText, responseType, responseText, responseData);
+		super(status, statusText, headers, responseType, responseText, responseData);
 	}
 
 	public isServerError(): boolean {

@@ -1,13 +1,6 @@
-export default class Reponse<T> implements IBaseResponse<T> {
-	private headers: Map<string, string>;
-
-	constructor(private status: number, private statusText: string, private responseType: string,
-		private responseText: string, private responseData: T) {
-		this.headers = new Map<string, string>();
-	}
-
-	public setHeaders(headers: Map<string, string>) {
-		this.headers = headers;
+export default class Reponse<T> implements IResponse<T> {
+	constructor(private status: number, private statusText: string, private headers: Map<string, string>,
+		private responseType: string, private responseText: string, private responseData: T) {
 	}
 
 	public getHeaders(): Map<string, string> {

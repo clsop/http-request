@@ -1,5 +1,4 @@
-interface IBaseResponse<T> {
-	setHeaders(headers: Map<string, string>): void;
+interface IResponse<T> {
 	getHeaders(): Map<string, string>;
 	getStatus(): number;
 	getStatusText(): string;
@@ -8,7 +7,7 @@ interface IBaseResponse<T> {
 	getResponseData(): T;
 }
 
-interface IFailResponse<T> extends IBaseResponse<T> {
+interface IFailResponse<T> extends IResponse<T> {
 	isServerError(): boolean;
 	isNotFound(): boolean;
 }
@@ -34,21 +33,28 @@ interface IHttpRequest<T> {
 	setHeader(header: string, value: string): void;
 	setUseCredentials(useCredentials: boolean): void;
 	setProgressHandler(callback: (this: XMLHttpRequest, e: IProgressEvent) => any): void;
-	then(callback: (value: IBaseResponse<T>) => T | PromiseLike<T>): Promise<T>;
-	catch(callback: (reason: any) => T | PromiseLike<T>): Promise<T | IBaseResponse<T>>;
+	then(callback: (value: IResponse<T>) => T | PromiseLike<T>): Promise<T>;
+	catch(callback: (reason: any) => T | PromiseLike<T>): Promise<T | IResponse<T>>;
 	cancel(): void;
 	send(method?: string, data?: T): void;
 }
 
-type Data = string | Document | Blob | ArrayBuffer | ArrayBufferView | FormData | URLSearchParams | ReadableStream<Uint8Array>; 
+type XhrData = string | Document | Blob | BufferSource | FormData | URLSearchParams | ReadableStream;
+type FetchData = string | Blob | BufferSource | FormData | URLSearchParams;
 type Method = "GET" | "POST" | "PUT" | "HEAD" | "OPTIONS" | "PATCH" | "DELETE";
-interface IRequestApi<T> {
+
+/**
+ * Interface for request api implementations
+ * @type {R}
+ * @type {D}
+ */
+interface IRequestApi<R, D> {
 	setHeader(header: string, value: string): void;
 	setTimeout(timeout: number): void;
 	setUrl(url: string): void;
 	setMethod(method: Method): void;
 	abort(): void;
-	execute(data?: Data): Promise<IBaseResponse<T>>;
+	execute(data?: D): Promise<IResponse<R>>;
 }
 
-type Resolver<T> = (value?: T | PromiseLike<T> | null) => void;
+type Resolver<T> = (value?: T | PromiseLike<T> | null | string) => void;

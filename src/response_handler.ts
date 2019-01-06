@@ -19,9 +19,7 @@ export default class ResponseHandler<T> {
         this.xhr = xhr;
     }
 
-    private formHeaders(xhr: XMLHttpRequest): Map<string, string> {
-        let allHeaders = xhr.getAllResponseHeaders();
-
+    private formHeaders(allHeaders: string): Map<string, string> {
         if (allHeaders !== null) {
             let headers = new Map<string, string>();
             let rawHeaders = allHeaders.split('\r\n');
@@ -61,13 +59,16 @@ export default class ResponseHandler<T> {
         // }
 
         switch (responseType) {
-        	case ResponseType.Success: response = new Response<T>(this.xhr.status, this.xhr.statusText, this.xhr.responseType, this.xhr.responseText,
+        	case ResponseType.Success: response = new Response<T>(this.xhr.status, this.xhr.statusText,
+                    this.formHeaders(this.xhr.getAllResponseHeaders()), this.xhr.responseType,
+                    this.xhr.responseText,
                     this.xhr.responseType === 'document' ? this.xhr.responseXML : this.xhr.response); break;
-        	case ResponseType.Failure: response = new FailResponse<T>(this.xhr.status, this.xhr.statusText, this.xhr.responseType, this.xhr.responseText,
+        	case ResponseType.Failure: response = new FailResponse<T>(this.xhr.status, this.xhr.statusText,
+                    this.formHeaders(this.xhr.getAllResponseHeaders()), this.xhr.responseType,
+                    this.xhr.responseText,
                     this.xhr.responseType === 'document' ? this.xhr.responseXML : this.xhr.response); break;
         }
 
-        response.setHeaders(this.formHeaders(this.xhr));
         return response;
     }
 }

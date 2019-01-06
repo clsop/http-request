@@ -1,12 +1,12 @@
 devDependencies:
   '@types/mocha': 5.2.5
   '@types/node': 10.12.5
-  '@types/sinon': 4.3.3
+  '@types/sinon': 7.0.3
   mocha: 5.2.0
   mocha-typescript: 1.1.17
   nyc: 13.1.0
   should: 13.2.3
-  sinon: 4.5.0
+  sinon: 7.2.2
   source-map-support: 0.5.9
   typescript: 3.2.2
 packages:
@@ -91,24 +91,26 @@ packages:
     dev: true
     resolution:
       integrity: sha512-RpPOVfK+yatXyn8n4PB1NW6k9qjinrXrRR8ugBN8fD6hCy5RXI6PSbVqpOJBO9oSaY7Nom4ohj35feb0UR9hSA==
-  /@sinonjs/formatio/2.0.0:
+  /@sinonjs/commons/1.3.0:
     dependencies:
-      samsam: 1.3.0
+      type-detect: 4.0.8
     dev: true
     resolution:
-      integrity: sha512-ls6CAMA6/5gG+O/IdsBcblvnd8qcO/l1TYoNeAzp3wcISOxlPXQEus0mLcdwazEkWjaBdaJ3TaxmNgCLWwvWzg==
-  /@sinonjs/formatio/3.0.0:
+      integrity: sha512-j4ZwhaHmwsCb4DlDOIWnI5YyKDNMoNThsmwEpfHx6a1EpsGZ9qYLxP++LMlmBRjtGptGHFsGItJ768snllFWpA==
+  /@sinonjs/formatio/3.1.0:
     dependencies:
-      '@sinonjs/samsam': 2.1.0
+      '@sinonjs/samsam': 3.0.2
     dev: true
     resolution:
-      integrity: sha512-vdjoYLDptCgvtJs57ULshak3iJe4NW3sJ3g36xVDGff5AE8P30S6A093EIEPjdi2noGhfuNOEkbxt3J3awFW1w==
-  /@sinonjs/samsam/2.1.0:
+      integrity: sha512-ZAR2bPHOl4Xg6eklUGpsdiIJ4+J1SNag1DHHrG/73Uz/nVwXqjgUtRPLoS+aVyieN9cSbc0E4LsU984tWcDyNg==
+  /@sinonjs/samsam/3.0.2:
     dependencies:
+      '@sinonjs/commons': 1.3.0
       array-from: 2.1.1
+      lodash.get: 4.4.2
     dev: true
     resolution:
-      integrity: sha512-5x2kFgJYupaF1ns/RmharQ90lQkd2ELS8A9X0ymkAAdemYHGtI2KiUHG8nX2WU0T1qgnOU5YMqnBM2V7NUanNw==
+      integrity: sha512-m08g4CS3J6lwRQk1pj1EO+KEVWbrbXsmi9Pw0ySmrIbcVxVaedoFgLvFsV8wHLwh01EpROVz3KvVcD1Jmks9FQ==
   /@types/mocha/5.2.5:
     dev: true
     resolution:
@@ -117,10 +119,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-GzdHjq3t3eGLMv92Al90Iq+EoLL+86mPfQhuglbBFO7HiLdC/rkt+zrzJJumAiBF6nsrBWhou22rPW663AAyFw==
-  /@types/sinon/4.3.3:
+  /@types/sinon/7.0.3:
     dev: true
     resolution:
-      integrity: sha512-Tt7w/ylBS/OEAlSCwzB0Db1KbxnkycP/1UkQpbvKFYoUuRn4uYsC3xh5TRPrOjTy0i8TIkSz1JdNL4GPVdf3KQ==
+      integrity: sha512-cjmJQLx2B5Hp9SzO7rdSivipo3kBqRqeYkTW17nLST1tn5YLWBjTdnzdmeTJXA1+KrrBLsEuvKQ0fUPGrfazQg==
   /ansi-regex/2.1.1:
     dev: true
     engines:
@@ -414,10 +416,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha1-5CGiqOINawgZ3yiQj3glJrlt0f4=
-  /just-extend/3.0.0:
+  /just-extend/4.0.2:
     dev: true
     resolution:
-      integrity: sha512-Fu3T6pKBuxjWT/p4DkqGHFRsysc8OauWr4ZRTY9dIx07Y9O0RkoR5jcv28aeD1vuAwhm3nLkDurwLXoALp4DpQ==
+      integrity: sha512-FrLwOgm+iXrPV+5zDU6Jqu4gCRXbWEQg2O3SKONsWE4w7AXFRkryS53bpWdaL9cNol+AmR3AEYz6kn+o0fCPnw==
   /lcid/1.0.0:
     dependencies:
       invert-kv: 1.0.0
@@ -447,6 +449,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-l9x0+1offnKKIzYVjyXU2SiwhXDLekRzKyhnbyldPHvC7BvLPVpdNUNR2KeMAiCN2D/kLNttZgQD5WjSxuBx3Q==
+  /lolex/3.0.0:
+    dev: true
+    resolution:
+      integrity: sha512-hcnW80h3j2lbUfFdMArd5UPA/vxZJ+G8vobd+wg3nVEQA0EigStbYcrG030FJxL6xiDDPEkoMatV9xIh5OecQQ==
   /lru-cache/4.1.3:
     dependencies:
       pseudomap: 1.0.2
@@ -526,16 +532,16 @@ packages:
     dev: true
     resolution:
       integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
-  /nise/1.4.6:
+  /nise/1.4.8:
     dependencies:
-      '@sinonjs/formatio': 3.0.0
-      just-extend: 3.0.0
+      '@sinonjs/formatio': 3.1.0
+      just-extend: 4.0.2
       lolex: 2.7.5
       path-to-regexp: 1.7.0
       text-encoding: 0.6.4
     dev: true
     resolution:
-      integrity: sha512-1GedetLKzmqmgwabuMSqPsT7oumdR77SBpDfNNJhADRIeA3LN/2RVqR4fFqwvzhAqcTef6PPCzQwITE/YQ8S8A==
+      integrity: sha512-kGASVhuL4tlAV0tvA34yJYZIVihrUt/5bDwpp4tTluigxUr2bBlJeDXmivb6NuEdFkqvdv/Ybb9dm16PSKUhtw==
   /npm-run-path/2.0.2:
     dependencies:
       path-key: 2.0.1
@@ -666,10 +672,6 @@ packages:
     dev: true
     resolution:
       integrity: sha1-l/cXtp1IeE9fUmpsWqj/3aBVpNE=
-  /samsam/1.3.0:
-    dev: true
-    resolution:
-      integrity: sha512-1HwIYD/8UlOtFS3QO3w7ey+SdSDFE4HRNLZoZRYVQefrOY3l17epswImeB1ijgJFQJodIaHcwkp3r/myBjFVbg==
   /semver/5.6.0:
     dev: true
     hasBin: true
@@ -735,19 +737,18 @@ packages:
     dev: true
     resolution:
       integrity: sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
-  /sinon/4.5.0:
+  /sinon/7.2.2:
     dependencies:
-      '@sinonjs/formatio': 2.0.0
+      '@sinonjs/commons': 1.3.0
+      '@sinonjs/formatio': 3.1.0
+      '@sinonjs/samsam': 3.0.2
       diff: 3.5.0
-      lodash.get: 4.4.2
-      lolex: 2.7.5
-      nise: 1.4.6
+      lolex: 3.0.0
+      nise: 1.4.8
       supports-color: 5.5.0
-      type-detect: 4.0.8
     dev: true
-    requiresBuild: true
     resolution:
-      integrity: sha512-trdx+mB0VBBgoYucy6a9L7/jfQOmvGeaKZT4OOJ+lPAtI8623xyGr8wLiE4eojzBS8G9yXbhx42GHUOVLr4X2w==
+      integrity: sha512-WLagdMHiEsrRmee3jr6IIDntOF4kbI6N2pfbi8wkv50qaUQcBglkzkjtoOEbeJ2vf1EsrHhLI+5Ny8//WHdMoA==
   /source-map-support/0.5.9:
     dependencies:
       buffer-from: 1.1.1
@@ -915,11 +916,11 @@ shrinkwrapVersion: 3
 specifiers:
   '@types/mocha': ^5.2.5
   '@types/node': ^10.1.2
-  '@types/sinon': ^4.3.0
+  '@types/sinon': ^7.0.3
   mocha: ^5.0.4
   mocha-typescript: ^1.1.12
   nyc: ^13.1.0
   should: ^13.2.1
-  sinon: ^4.4.2
+  sinon: ^7.2.2
   source-map-support: ^0.5.9
   typescript: ^3.2.2

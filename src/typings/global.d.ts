@@ -1,5 +1,8 @@
 declare module NodeJS  {
     interface Global {
-		XMLHttpRequest: sinon.SinonFakeXMLHttpRequest
+		AbortController: () => { abort: () => void };
+		Headers: () => Map<string, string>;
+		fetch: (input: string | Request, init?: any) => void;
+		XMLHttpRequest: sinon.SinonFakeXMLHttpRequestStatic;
     }
 }

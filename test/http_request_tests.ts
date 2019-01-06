@@ -6,7 +6,7 @@ import { suite, test } from "mocha-typescript";
 import ErrorMessage from '../src/errors';
 import { HttpRequest } from '../src/http_request';
 
-describe("object tests", () => {
+describe("http request tests", () => {
     let requests: Array<sinon.SinonFakeXMLHttpRequest> = [];
     let xhr: XMLHttpRequest;
     let req: IHttpRequest<any>;

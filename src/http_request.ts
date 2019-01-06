@@ -11,7 +11,7 @@ export class HttpRequest<T> implements IHttpRequest<T> {
     private username?: string;
     private password?: string;
 
-    private promise: Promise<IBaseResponse<T>>;
+    private promise: Promise<IResponse<T>>;
     private xhr: XMLHttpRequest;
 
     constructor(url: string, eagerness?: Eagerness,
@@ -37,7 +37,7 @@ export class HttpRequest<T> implements IHttpRequest<T> {
         this.setPatience(eagerness);
     }
 
-    private eventHook = (promiseType: any, resolver: Resolver<IBaseResponse<T>>) => {
+    private eventHook = (promiseType: any, resolver: Resolver<IResponse<T>>) => {
         return (e: Event) => {
             let xhr = e.target as XMLHttpRequest;
             let responseHandler = new ResponseHandler<T>(xhr);
@@ -96,11 +96,11 @@ export class HttpRequest<T> implements IHttpRequest<T> {
         this.xhr.addEventListener('progress', callback);
     }
 
-    public then(callback: (value: IBaseResponse<T>) => T | PromiseLike<T>): Promise<T> {
+    public then(callback: (value: IResponse<T>) => T | PromiseLike<T>): Promise<T> {
         return this.promise.then<T>(callback);
     }
 
-    public catch(callback: (reason: any) => T | PromiseLike<T>): Promise<T | IBaseResponse<T>> {
+    public catch(callback: (reason: any) => T | PromiseLike<T>): Promise<T | IResponse<T>> {
         return this.promise.catch<T>(callback);
     }
 
