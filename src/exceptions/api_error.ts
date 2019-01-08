@@ -1,8 +1,8 @@
-export default class TimeoutError extends Error {
+export default class ApiError extends Error {
 	constructor(message?: string) {
 		super(message);
 
-		this.name = "timeout";
+		this.name = "api";
 	}
 
 	public toString = () => `${this.name}: ${this.message}`;

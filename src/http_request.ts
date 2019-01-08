@@ -2,72 +2,59 @@ import ErrorMessage from './errors';
 import ResponseHandler from './response_handler';
 import HttpRequestError from './exceptions/http_request_error';
 
-export class HttpRequest<T> implements IHttpRequest<T> {
-    private readonly headers: Map<string, string>;
-    private readonly methods: Set<string>;
+import ApiError from './exceptions/api_error';
+import XhrApi from './request_api/xhr_api';
+import FetchApi from './request_api/fetch_api';
 
-    private url: string;
-    private useCredentials: boolean;
-    private username?: string;
-    private password?: string;
+export class HttpRequest<R, D> implements IHttpRequest<R, D> {
+    private readonly api: IRequestApi<R, D>;
+    private readonly parameters: IParameters;
 
-    private promise: Promise<IResponse<T>>;
-    private xhr: XMLHttpRequest;
+    constructor(parameters?: IParameters, api?: Api) {
+        let fetchApi = (): IRequestApi<R, D> => new FetchApi(parameters);
+        let xhrApi = (): IRequestApi<R, D> => new XhrApi(parameters);
 
-    constructor(url: string, eagerness?: Eagerness,
-        useCredentials: boolean = false,
-        username?: string, password?: string) {
-        let xhr: XMLHttpRequest = new XMLHttpRequest();
+        switch (api) {
+            case "FETCH": {
+                if (!("fetch" in window)) throw new ApiError("fetch api is not available");
+                this.api = fetchApi();
+            } break;
+            case "XHR": this.api = xhrApi(); break;
+            default: this.api = "fetch" in window ? fetchApi() : xhrApi(); break;
+        }
 
-        this.url = url;
-        this.useCredentials = useCredentials;
-        this.username = username;
-        this.password = password;
-        this.methods = new Set(['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTION']);
-        this.promise = new Promise((resolve, reject) => {
-            let failed = this.eventHook(1, reject);
-
-            xhr.addEventListener('load', this.eventHook(0, resolve));
-            xhr.addEventListener('error', failed);
-            xhr.addEventListener('abort', failed);
-        });
-
-        this.headers = new Map();
-        this.xhr = xhr;
-        this.setPatience(eagerness);
+        // defaults
+        this.parameters = Object.assign<IParameters, IParameters>({
+            url: null,
+            method: null,
+            headers: new Map<string, string>()
+        }, parameters);
+        this.setPatience(this.parameters.eagerness);
     }
-
-    private eventHook = (promiseType: any, resolver: Resolver<IResponse<T>>) => {
-        return (e: Event) => {
-            let xhr = e.target as XMLHttpRequest;
-            let responseHandler = new ResponseHandler<T>(xhr);
-
-            resolver(responseHandler.isValidResponse() ? responseHandler.getResponse(promiseType) : null);
-        };
-    };
 
     private validUrl = (url: string): boolean => /^(http|https):\/\/(?:w{3}\.)?.+(?:\.).+/.test(url);
 
     public setPatience(eagerness: Eagerness = "WHENEVER") {
+
         switch (eagerness) {
             case "NOW":
-                this.xhr.timeout = 100;
+                this.api.setTimeout(100);
                 break;
             case "HURRY":
-                this.xhr.timeout = 500;
+                this.api.setTimeout(500);
                 break;
             case "NO_HURRY":
-                this.xhr.timeout = 2000;
+                this.api.setTimeout(2000);
                 break;
             case "PATIENT":
-                this.xhr.timeout = 10000;
+                this.api.setTimeout(10000);
                 break;
             case "REAL_PATIENT":
-                this.xhr.timeout = 30000;
+                this.api.setTimeout(30000);
                 break;
             default:
                 // whenever
-                this.xhr.timeout = 0;
+                this.api.setTimeout(0);
                 break;
         }
     }
@@ -77,53 +64,41 @@ export class HttpRequest<T> implements IHttpRequest<T> {
             throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${url}`);
         }
 
-        this.url = url;
+        this.parameters.url = url;
+        this.api.setUrl(url);
     }
 
     public setHeader(header: string, value: string) {
-        if (this.headers.has(header)) {
+        if (this.parameters.headers.has(header)) {
             throw new HttpRequestError(ErrorMessage.HEADER_DEFINED, `This header was already defined in the instance: ${header}`);
         }
 
-        this.headers.set(header, value);
+        this.parameters.headers.set(header, value);
+        this.api.setHeader(header, value);
     }
 
-    public setUseCredentials(useCredentials: boolean) {
-        this.useCredentials = useCredentials;
+    public setCredentials(credentials: Credentials) {
+        this.api.setCredentials(credentials);
     }
 
-    public setProgressHandler(callback: (this: XMLHttpRequest, e: ProgressEvent) => any) {
-        this.xhr.addEventListener('progress', callback);
+    public abort() {
+        this.api.abort();
     }
 
-    public then(callback: (value: IResponse<T>) => T | PromiseLike<T>): Promise<T> {
-        return this.promise.then<T>(callback);
-    }
-
-    public catch(callback: (reason: any) => T | PromiseLike<T>): Promise<T | IResponse<T>> {
-        return this.promise.catch<T>(callback);
-    }
-
-    public cancel() {
-        this.xhr.abort();
-    }
-
-    public send(method: string = "GET", data?: T) {
-        if (!this.validUrl(this.url)) {
-            throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${this.url}`);
+    public async send(method?: Method, data?: D): Promise<IResponse<R>> {
+        if (!this.validUrl(this.parameters.url)) {
+            throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${this.parameters.url}`);
         }
 
-        // always async
-        this.xhr.open(this.methods.has(method) ? method : 'GET', this.url, true, this.username, this.password);
-        this.xhr.withCredentials = this.useCredentials;
+        // use any available method supplied (defaults to GET)
+        this.parameters.method = method ? method : (this.parameters.method ? this.parameters.method : "GET");
+        this.api.setMethod(this.parameters.method);
 
-        this.headers.forEach((val, key) => {
-            this.xhr.setRequestHeader(key, val);
-        });
+        // GET and HEAD cannot contain data
+        if (this.parameters.method === "GET" || this.parameters.method === "HEAD") {
+            return await this.api.execute();
+        }
 
-        if (data)
-            this.xhr.send(<any>data);
-        else
-            this.xhr.send();
+        return await this.api.execute(data);
     }
 }

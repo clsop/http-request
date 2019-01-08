@@ -3,11 +3,12 @@ type Resolve<T> = (value?: T | PromiseLike<T>) => void;
 type Reject = (reason?: any) => void;
 
 interface IParams {
-	method: string;
-	url: string;
-	useCredentials?: boolean;
-	timeout?: number;
+	method?: Method;
+	url?: string;
 	headers?: Map<string, string>;
-	username?: string;
-	password?: string;
+	credentials?: Credentials;
+}
+
+interface IParamsInternal extends IParams {
+	timeout?: number;
 }

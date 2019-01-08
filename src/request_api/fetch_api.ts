@@ -4,11 +4,17 @@ import TimeoutError from '../exceptions/timeout_error';
 
 export default class FetchApi<R, D> implements IRequestApi<R, D> {
 	private abortController: AbortController;
-	private params: IParams;
+	private params: IParamsInternal;
 
-	constructor(params: IParams = { method: "GET", url: null, useCredentials: false, headers: new Map<string, string>(), timeout: 0 }) {
-		this.params = params;
+	constructor(params?: IParamsInternal) {
 		this.abortController = new AbortController();
+		this.params = Object.assign<IParamsInternal, IParamsInternal>({
+			method: "GET",
+			url: null,
+			credentials: null,
+			headers: new Map<string, string>(),
+			timeout: 0
+		}, params);
 	}
 
     public setMethod(method: Method): void {
@@ -27,6 +33,10 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		this.params.url = url;
 	}
 
+	public setCredentials(credentials: Credentials): void {
+		this.params.credentials = credentials;
+	}
+
 	public abort(): void {
 		this.abortController.abort();
 	}
@@ -34,6 +44,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 	public async execute(data?: D): Promise<IResponse<R>> {
 		let promise: Promise<IResponse<R>> = null;
 		let headers = Object.create(null);
+		let credentials: RequestCredentials = this.params.credentials ? "include" : "same-origin";
 
 		this.params.headers.forEach((value, key) => {
 			Object.defineProperty(headers, key, {
@@ -46,10 +57,12 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 				signal: this.abortController.signal,
 				method: this.params.method,
 				headers: headers,
-				body: data && typeof data === "string" ? <string>data : JSON.stringify(data)
+				credentials: credentials,
+				body: data ? (typeof data === "string" ? <string>data : JSON.stringify(data)) : null
 			})];
 
 			if (this.params.timeout > 0) {
+				console.log("duhhh");
 				promises.push(await new Promise<any>((resolve, reject) => {
 					setTimeout(() => reject(new TimeoutError("the request timed out")), this.params.timeout);
 				}));

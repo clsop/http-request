@@ -2,21 +2,26 @@ import { ResponseType } from '../response_type';
 import ResponseHandler from '../response_handler';
 
 export default class XhrApi<R, D> implements IRequestApi<R, D> {
-	private params: IParams;
 	private promise: Promise<IResponse<R>>;
 	private xhr: XMLHttpRequest;
+    private params: IParamsInternal;
 
-	constructor(params: IParams = { method: "GET", url: null, useCredentials: false, headers: new Map<string, string>(), timeout: 0 }) {
+	constructor(params?: IParamsInternal) {
+        this.params = Object.assign<IParamsInternal, IParamsInternal>({
+            method: "GET",
+            url: null,
+            credentials: null,
+            headers: new Map<string, string>(),
+            timeout: 0
+        }, params);
+
 		let xhr = new XMLHttpRequest();
-
-		this.params = params;
 		this.promise = new Promise((resolve, reject) => {
             let failed = this.eventHook(ResponseType.Failure, reject);
 
-            //xhr.ontimeout = failed;
             xhr.addEventListener('load', this.eventHook(0, resolve));
             xhr.addEventListener('error', failed);
-            xhr.addEventListener('ontimeout', failed);
+            xhr.addEventListener('timeout', failed);
             xhr.addEventListener('abort', failed);
         });
 		this.xhr = xhr;
@@ -47,13 +52,23 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
 		this.params.url = url;
 	}
 
+    public setCredentials(credentials: Credentials): void {
+        this.params.credentials = credentials;
+    }
+
 	public abort(): void {
 		this.xhr.abort();
 	}
 
 	public async execute(data?: D): Promise<IResponse<R>> {
-		this.xhr.open(this.params.method, this.params.url, true, this.params.username, this.params.password);
-        this.xhr.withCredentials = this.params.useCredentials;
+        if (this.params.credentials) {
+            this.xhr.open(this.params.method, this.params.url, true, this.params.credentials.username, this.params.credentials.password);
+            this.xhr.withCredentials = true;
+        } else {
+            this.xhr.open(this.params.method, this.params.url, true);
+            this.xhr.withCredentials = false;
+        }
+
         this.xhr.timeout = this.params.timeout;
 
         this.params.headers.forEach((val, key) => {

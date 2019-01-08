@@ -4,60 +4,138 @@ import { describe, before, after, beforeEach, afterEach } from "mocha";
 import { suite, test } from "mocha-typescript";
 
 import ErrorMessage from '../src/errors';
+import FetchApi from '../src/request_api/fetch_api';
+import XhrApi from '../src/request_api/xhr_api';
 import { HttpRequest } from '../src/http_request';
 
 describe("http request tests", () => {
-    let requests: Array<sinon.SinonFakeXMLHttpRequest> = [];
-    let xhr: XMLHttpRequest;
-    let req: IHttpRequest<any>;
-
-    before(() => {
-        global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-        global.XMLHttpRequest.onCreate = req => {
-            requests.push(req);
-        }
-    });
-
-    after(() => {
-        global.XMLHttpRequest.restore();
-    });
+    let request: IHttpRequest<any, any>;
+    let globalMock: sinon.SinonMock;
+    let windowMock: sinon.SinonMock;
 
     beforeEach(() => {
-        req = new HttpRequest('http://fakeRequest.local');
-        req.setPatience();
+        // fake and mock fetch api
+        let window = Object.create(null, {
+            fetch: {
+                value: (input: string | Request, init?: any) => { },
+                configurable: true
+            }
+        });
+        global.fetch = (input: string | Request, init?: any) => { };
+        global.window = window;
+
+        let abortController = { abort: () => { } };
+        global.AbortController = () => { return abortController; };
+        windowMock = sinon.mock(global.window);
+        globalMock = sinon.mock(global);
+
+        request = new HttpRequest({ url: 'http://fakeRequest.local' });
     });
 
     afterEach(() => {
-        requests = [];
+        globalMock.restore();
+        windowMock.restore();
     });
+
+    @suite("api selection")
+    class ApiSelection {
+        //@test.skip
+        @test("should use fetch api when avalable")
+        public useFetchApi() {
+            // act
+            let request = new HttpRequest();
+
+            // assert
+            request["api"].should.be.instanceof(FetchApi);
+        }
+
+        //@test.skip
+        @test("should use selected api")
+        public useSelectedApi() {
+            // arrange
+            let apiSelector: Api = "XHR";
+
+            // act
+            let request = new HttpRequest({}, apiSelector);
+
+            // assert
+            request["api"].should.be.instanceof(XhrApi);
+        }
+
+        //@test.skip
+        @test("should throw error if selected api is not available")
+        public throwWhenNotAvailable() {
+            // arrange
+            let apiSelection: Api = "FETCH";
+
+            globalMock.restore();
+            windowMock.restore();
+            global.window = Object.create(null);
+
+            // act
+            let expectation = () => new HttpRequest({}, apiSelection);
+
+            // assert
+            expectation.should.throw(Error);
+        }
+
+        @test.skip
+        //@test("should use web workers if available")
+        public useWebWorkers() {
+        }
+    }
 
     @suite("setPatience method")
     class SetPatience {
-        @test("should use whenever eagerness when no argument")
+        @test("should use whenever eagerness as default")
         public defaultWhenever() {
-            req.setPatience();
-            req["xhr"].timeout.should.equal(0).and.be.a.Number();
+            // arrange
+            let timeout = 0;
+
+            // assert
+            request["api"]["params"].timeout.should.equal(timeout).and.be.a.Number();
         }
 
         @test("should be able to set eagerness")
         public setEagerness() {
-            req.setPatience('NO_HURRY');
-            req["xhr"].timeout.should.equal(2000).and.be.a.Number();
+            // arrange
+            let eagerness: Eagerness = "NO_HURRY";
+            let timeout = 2000;
+
+            // act
+            request.setPatience(eagerness);
+
+            // assert
+            request["api"]["params"].timeout.should.equal(timeout).and.be.a.Number();
         }
     }
 
     @suite('setHeader method')
     class SetHeader {
-        @test('should add one internal entry')
-        public internalEntry() {
-            req.setHeader('Accept', '*');
-            req["headers"].should.have.property('size').equal(1);
+        @test('should add one header entry')
+        public headerEntry() {
+            // arrange
+            let header = { name: "Accept", value: "*" };
+
+            // act
+            request.setHeader(header.name, header.value);
+
+            // asssert
+            request["parameters"].headers.should.have.property('size').equal(1);
+            // TODO: check value
         }
 
         @test('should throw exception when header is already present')
         public throwException() {
-            req.setHeader('Accept', '*');
-            (() => req.setHeader('Accept', 'application/json')).should.throw(ErrorMessage.HEADER_DEFINED);
+            // arrange
+            let header = { name: "Accept", value: "*" };
+
+            // act
+            request.setHeader(header.name, header.value);
+            let expectation = () => request.setHeader(header.name, 'application/json');
+
+            // assert
+            expectation.should.throw(ErrorMessage.HEADER_DEFINED);
         }
     }
 
@@ -65,16 +143,56 @@ describe("http request tests", () => {
     class SetUrl {
         @test('should throw exception when non url')
         public urlNotValid() {
-            (() => req.setUrl(null)).should.throw(ErrorMessage.VALID_URL);
-            (() => req.setUrl(undefined)).should.throw(ErrorMessage.VALID_URL);
-            (() => req.setUrl('')).should.throw(ErrorMessage.VALID_URL);
-            (() => req.setUrl('file://fakeRequest')).should.throw(ErrorMessage.VALID_URL);
-            (() => req.setUrl('http://fakeRequest')).should.throw(ErrorMessage.VALID_URL);
+            // arrange
+            let expectations = [
+                () => request.setUrl(null),
+                () => request.setUrl(undefined),
+                () => request.setUrl(''),
+                () => request.setUrl('file://fakeRequest'),
+                () => request.setUrl('http://fakeRequest')
+            ];
+
+            // act, assert
+            expectations.forEach((value) => {
+                value.should.throw(ErrorMessage.VALID_URL);
+            });
         }
 
         @test('should not throw exception when valid url')
         public validUrl() {
-            (() => req.setUrl('http://fakeRequest.local')).should.not.throw(ErrorMessage.VALID_URL);
+            // arrange
+            let expectation = () => request.setUrl('http://fakeRequest.local');
+
+            // act, assert
+            expectation.should.not.throw(ErrorMessage.VALID_URL);
+        }
+    }
+
+    @suite("setCredentials method")
+    class SetCredentials {
+        @test("should set internal credentials")
+        public setInternalCredentials() {
+            // arrange
+            let credentials = { username: "test", password: "test" };
+
+            // act
+            request.setCredentials(credentials);
+
+            // assert
+            request["api"]["params"].credentials.should.equal(credentials);
+        }
+
+        @test("should be able to set eagerness")
+        public setEagerness() {
+            // arrange
+            let eagerness: Eagerness = "NO_HURRY";
+            let timeout = 2000;
+
+            // act
+            request.setPatience(eagerness);
+
+            // assert
+            request["api"]["params"].timeout.should.equal(timeout).and.be.a.Number();
         }
     }
 
@@ -82,50 +200,69 @@ describe("http request tests", () => {
     class Send {
         @test('should not throw exception when valid url')
         public validUrl() {
-            (() => {
-                req.setUrl('http://fakeRequest.local');
-                req.send();
-            }).should.not.throw(ErrorMessage.VALID_URL);
-            (() => {
-                req.setUrl('http://www.fakeRequest.com');
-                req.send();
-            }).should.not.throw(ErrorMessage.VALID_URL);
-            (() => {
-                req.setUrl('https://www.fakeRequest.org');
-                req.send();
-            }).should.not.throw(ErrorMessage.VALID_URL);
+            // arrange
+            let response = {
+                ok: true,
+                headers: new Map<string, string>(),
+                text: () => {},
+                json: () => {}
+            };
+            let responseMock = sinon.mock(response);
+            responseMock.expects("text").resolves("");
+            responseMock.expects("json").resolves({});
+            windowMock.expects("fetch").resolves(response);
+
+            let expectations = [() => {
+                request.setUrl('http://fakeRequest.local');
+                request.send();
+            }, () => {
+                request.setUrl('http://www.fakeRequest.com');
+                request.send();
+            }, () => {
+                request.setUrl('https://www.fakeRequest.org');
+                request.send();
+            }];
+
+            // act, assert
+            expectations.forEach((value) => value.should.not.throw(ErrorMessage.VALID_URL));
+            //responseMock.verify();
+            //globalMock.verify();
         }
 
         @test('should throw exception when no url')
         public emptyUrl() {
-            (() => {
-                req.setUrl(null);
-                req.send();
-            }).should.throw(ErrorMessage.VALID_URL);
-            (() => {
-                req.setUrl(undefined);
-                req.send();
-            }).should.throw(ErrorMessage.VALID_URL);
-            (() => {
-                req.setUrl('');
-                req.send();
-            }).should.throw(ErrorMessage.VALID_URL);
-            (() => {
-                req.setUrl('  ');
-                req.send();
-            }).should.throw(ErrorMessage.VALID_URL);
+            // arrange
+            let expectations = [() => {
+                request.setUrl(null);
+                request.send();
+            }, () => {
+                request.setUrl(undefined);
+                request.send();
+            }, () => {
+                request.setUrl('');
+                request.send();
+            }, () => {
+                request.setUrl('  ');
+                request.send();
+            }];
+
+            // act, assert
+            expectations.forEach((value) => value.should.throw(ErrorMessage.VALID_URL));
         }
 
         @test('should throw exception when url is not valid (non url)')
         public invalidUrl() {
-            (() => {
-                req.setUrl('file://fakeRequest');
-                req.send();
-            }).should.throw(ErrorMessage.VALID_URL);
-            (() => {
-                req.setUrl('http://fakeRequest');
-                req.send();
-            }).should.throw(ErrorMessage.VALID_URL);
+            // arrange
+            let expectations = [() => {
+                request.setUrl('file://fakeRequest');
+                request.send();
+            }, () => {
+                request.setUrl('http://fakeRequest');
+                request.send();
+            }];
+
+            // act, assert
+            expectations.forEach((value) => value.should.throw(ErrorMessage.VALID_URL));
         }
     }
 });

@@ -104,6 +104,18 @@ describe("api tests", () => {
 			this.api["params"].url.should.be.equal(url);
 		}
 
+		@test("can set credentials")
+		public canSetCredentials() {
+			// arrange
+			let credentials = { username: "test", password: "test" };
+
+			// act
+			this.api.setCredentials(credentials)
+
+			// assert
+			this.api["params"].credentials.should.be.equal(credentials);
+		}
+
 		@test.skip
 		//@test("will timeout")
 		public willTimeout(done: MochaDone) {
@@ -283,6 +295,18 @@ describe("api tests", () => {
 
 			// assert
 			this.api["params"].url.should.be.equal(url);
+		}
+
+		@test("can set credentials")
+		public canSetCredentials() {
+			// arrange
+			let credentials = { username: "test", password: "test" };
+
+			// act
+			this.api.setCredentials(credentials)
+
+			// assert
+			this.api["params"].credentials.should.be.equal(credentials);
 		}
 
 		@test("will timeout")

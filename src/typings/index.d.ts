@@ -20,25 +20,39 @@ interface IHttpResponseError extends IHttpRequestError {
 	getResponseType(): string;
 }
 
-type ProgressHandler = (event: IProgressEvent) => void;
-interface IProgressEvent extends Event {
-	loaded: number;
-	total: number;
+/**
+ * The patience of the request related to a timeout
+ * @type {String}
+ */
+type Eagerness = "NOW" | "NO_HURRY" | "HURRY" | "PATIENT" | "REAL_PATIENT" | "WHENEVER";
+
+/**
+ * Initial request parameters
+ */
+interface IParameters extends IParams {
+	eagerness?: Eagerness;
 }
 
-type Eagerness = "NOW" | "NO_HURRY" | "HURRY" | "PATIENT" | "REAL_PATIENT" | "WHENEVER";
-interface IHttpRequest<T> {
-	setPatience(eagerness?: Eagerness): void;
+interface Credentials {
+	username: string;
+	password: string;
+}
+
+/**
+ * Wrapper interface for http request api
+ * @type {R}
+ * @type {D}
+ */
+interface IHttpRequest<R, D> {
+	setPatience(eagerness: Eagerness): void;
 	setUrl(url: string): void;
 	setHeader(header: string, value: string): void;
-	setUseCredentials(useCredentials: boolean): void;
-	setProgressHandler(callback: (this: XMLHttpRequest, e: IProgressEvent) => any): void;
-	then(callback: (value: IResponse<T>) => T | PromiseLike<T>): Promise<T>;
-	catch(callback: (reason: any) => T | PromiseLike<T>): Promise<T | IResponse<T>>;
-	cancel(): void;
-	send(method?: string, data?: T): void;
+	setCredentials(credentials: Credentials): void;
+	abort(): void;
+	send(method?: Method, data?: D): Promise<IResponse<R>>;
 }
 
+type Api = "FETCH" | "XHR";
 type XhrData = string | Document | Blob | BufferSource | FormData | URLSearchParams | ReadableStream;
 type FetchData = string | Blob | BufferSource | FormData | URLSearchParams;
 type Method = "GET" | "POST" | "PUT" | "HEAD" | "OPTIONS" | "PATCH" | "DELETE";
@@ -53,6 +67,7 @@ interface IRequestApi<R, D> {
 	setTimeout(timeout: number): void;
 	setUrl(url: string): void;
 	setMethod(method: Method): void;
+	setCredentials(credentials: Credentials): void;
 	abort(): void;
 	execute(data?: D): Promise<IResponse<R>>;
 }
