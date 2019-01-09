@@ -1,10 +1,10 @@
 {
   "name": "@shanknet/http-request",
-  "version": "0.0.9",
+  "version": "0.0.9.1",
   "description": "Simple wrapper module for making http requests on the client.",
   "license": "MIT",
   "author": "clsop <shanknet85@gmail.com>",
-  "main": "src/index.js",
+  "main": "index.js",
   "typings": "src/typings/index.d.ts",
   "nyc": {
     "include": [
