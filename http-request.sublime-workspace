@@ -4,6 +4,98 @@
 		"selected_items":
 		[
 			[
+				"res",
+				"responseMock\tlet"
+			],
+			[
+				"fetch",
+				"fetchMock\tlet"
+			],
+			[
+				"for",
+				"forEach\tmethod"
+			],
+			[
+				"set",
+				"setTimeout\tmethod"
+			],
+			[
+				"req",
+				"request_api\tdirectory"
+			],
+			[
+				"a",
+				"abortController\tproperty"
+			],
+			[
+				"Fetch",
+				"FetchApiTests\tclass"
+			],
+			[
+				"stub",
+				"SinonStub\tinterface"
+			],
+			[
+				"ca",
+				"calledOnce\tproperty"
+			],
+			[
+				"Abort",
+				"AbortSignal\tvar"
+			],
+			[
+				"A",
+				"AbortController\tproperty"
+			],
+			[
+				"Stu",
+				"SinonStub\tinterface"
+			],
+			[
+				"FetchAp",
+				"FetchApiTests\tclass"
+			],
+			[
+				"Mock",
+				"SinonMockStatic\tinterface"
+			],
+			[
+				"called",
+				"calledOnce\tproperty"
+			],
+			[
+				"SinonFakeXMLHttpRequest",
+				"SinonFakeXMLHttpRequestStatic\tinterface"
+			],
+			[
+				"re",
+				"returns\tmethod"
+			],
+			[
+				"fet",
+				"fetchMock\tlet"
+			],
+			[
+				"Sinon",
+				"SinonSpy\tinterface"
+			],
+			[
+				"SinonS",
+				"SinonStub\tinterface"
+			],
+			[
+				"s",
+				"stub\tproperty"
+			],
+			[
+				"get",
+				"getAllResponseHeaders\tmethod"
+			],
+			[
+				"hea",
+				"getAllResponseHeaders\tmethod"
+			],
+			[
 				"se",
 				"setTimeout\tmethod"
 			],
@@ -38,10 +130,6 @@
 			[
 				"Response",
 				"ResponseType\talias"
-			],
-			[
-				"res",
-				"response_type\tscript"
 			],
 			[
 				"use",
@@ -124,10 +212,6 @@
 				"StructureDiscovery\tmodule"
 			],
 			[
-				"a",
-				"authors"
-			],
-			[
 				"local",
 				"localDateTime\tstatement"
 			],
@@ -174,10 +258,6 @@
 			[
 				"d",
 				"db\tmodule"
-			],
-			[
-				"re",
-				"replace"
 			],
 			[
 				"u",
@@ -368,24 +448,12 @@
 				"loads\tfunction"
 			],
 			[
-				"get",
-				"gettempdir\tfunction"
-			],
-			[
 				"Temporar",
 				"TemporaryFile\tfunction"
 			],
 			[
-				"req",
-				"requires_auth"
-			],
-			[
 				"Exce",
 				"ExcelParser\tmodule"
-			],
-			[
-				"s",
-				"structure\tmodule"
 			],
 			[
 				"allow",
@@ -446,102 +514,87 @@
 			[
 				"RA",
 				"RATE_HZ"
-			],
-			[
-				"OUT",
-				"OUTFORMAT"
-			],
-			[
-				"inline",
-				"inline-block"
-			],
-			[
-				"IN",
-				"LOG_INFO\tinstance"
-			],
-			[
-				"tra",
-				"transmissionResponse"
-			],
-			[
-				"tansmi",
-				"transmissionLog"
-			],
-			[
-				"assert",
-				"assert_called_once"
-			],
-			[
-				"As",
-				"AsyncTestCase\tclass"
-			],
-			[
-				"E",
-				"LOG_ERR\tinstance"
-			],
-			[
-				"called",
-				"assert_called_once_with"
-			],
-			[
-				"asser",
-				"assert_called_once"
-			],
-			[
-				"tansmis",
-				"transmissionRequest\tmodule"
-			],
-			[
-				"reques",
-				"requestBody\tstatement"
-			],
-			[
-				"response",
-				"responseCode\tstatement"
-			],
-			[
-				"De",
-				"LOG_DEBUG\tinstance"
-			],
-			[
-				"D",
-				"LOG_DEBUG\tinstance"
-			],
-			[
-				"get_Event",
-				"get_event_loop\tfunction"
-			],
-			[
-				"get_",
-				"get_event_loop_policy\tfunction"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "test/api_tests.ts",
-			"settings":
-			{
-				"buffer_size": 4867,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "test/http_request_tests.ts",
 			"settings":
 			{
-				"buffer_size": 4297,
+				"buffer_size": 8083,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/response_handler.ts",
+			"file": "src/fail_response.ts",
 			"settings":
 			{
-				"buffer_size": 2564,
+				"buffer_size": 496,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 996,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/exceptions/api_error.ts",
+			"settings":
+			{
+				"buffer_size": 182,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test/api_tests.ts",
+			"settings":
+			{
+				"buffer_size": 10930,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/typings/global.d.ts",
+			"settings":
+			{
+				"buffer_size": 320,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/exceptions/http_error.ts",
+			"settings":
+			{
+				"buffer_size": 277,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/exceptions/http_request_error.ts",
+			"settings":
+			{
+				"buffer_size": 220,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/typings/internal.d.ts",
+			"settings":
+			{
+				"buffer_size": 293,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -549,25 +602,8 @@
 			"file": "src/typings/index.d.ts",
 			"settings":
 			{
-				"buffer_size": 1751,
+				"buffer_size": 1866,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/typings/params.d.ts",
-			"settings":
-			{
-				"buffer_size": 170,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/request_api/params.ts",
-			"settings":
-			{
-				"buffer_size": 596,
 				"line_ending": "Unix"
 			}
 		}
@@ -697,16 +733,39 @@
 	[
 		"/extra/misc/Coding_Projects/js/http-request",
 		"/extra/misc/Coding_Projects/js/http-request/src",
+		"/extra/misc/Coding_Projects/js/http-request/src/exceptions",
 		"/extra/misc/Coding_Projects/js/http-request/src/request_api",
 		"/extra/misc/Coding_Projects/js/http-request/src/typings",
 		"/extra/misc/Coding_Projects/js/http-request/test"
 	],
 	"file_history":
 	[
-		"/extra/misc/Coding_Projects/js/http-request/src/request_api/xhr_api.ts",
-		"/extra/misc/Coding_Projects/js/http-request/tsconfig.json",
-		"/extra/misc/Coding_Projects/js/http-request/test/mocha.opts",
+		"/extra/misc/Coding_Projects/js/http-request/src/exceptions/timeout_error.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/exceptions/api_error.ts",
+		"/extra/misc/Coding_Projects/js/http-request/test/fail_tests.ts",
+		"/extra/misc/Coding_Projects/js/http-request/test/common_tests.ts",
+		"/extra/misc/Coding_Projects/web/applications/TR/src/client/entry.tsx",
+		"/extra/misc/Coding_Projects/web/applications/TR/src/client/app.tsx",
+		"/extra/misc/Coding_Projects/js/http-request/test/api_tests.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/typings/global.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/typings/index.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/test/http_request_tests.ts",
+		"/extra/misc/Coding_Projects/js/http-request/test/success_tests.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/response_handler.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/response_type.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/http_request.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/response.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/index.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/fail_response.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/typings/internal.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/request_api/params.ts",
+		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/typescript/3.2.2/node_modules/typescript/lib/lib.dom.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/.npmrc",
+		"/extra/misc/Coding_Projects/js/http-request/tsconfig.json",
+		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/sinon/7.0.3/node_modules/@types/sinon/index.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/package.json",
+		"/extra/misc/Coding_Projects/js/http-request/src/request_api/xhr_api.ts",
+		"/extra/misc/Coding_Projects/js/http-request/test/mocha.opts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/node/10.12.2/node_modules/@types/node/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/node/10.12.5/node_modules/@types/node/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/sinon/4.3.3/node_modules/@types/sinon/index.d.ts",
@@ -738,11 +797,7 @@
 		"/extra/misc/Coding_Projects/js/http-request/.gitignore",
 		"/extra/misc/Coding_Projects/js/http-request/mocha.opts",
 		"/extra/misc/Coding_Projects/js/http-request/src/HttpRequest.ts",
-		"/extra/misc/Coding_Projects/js/http-request/package.json",
-		"/extra/misc/Coding_Projects/js/http-request/test/common_tests.ts",
-		"/extra/misc/Coding_Projects/js/http-request/test/fail_tests.ts",
 		"/extra/misc/Coding_Projects/js/http-request/test/object_tests.ts",
-		"/extra/misc/Coding_Projects/js/http-request/test/success_tests.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/exceptions/HttpRequestError.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/FailResponse.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/Response.ts",
@@ -750,7 +805,6 @@
 		"/home/clayzzz/.config/sublime-text-3/Packages/TypeScript/TypeScriptReact.sublime-settings",
 		"/home/clayzzz/.config/sublime-text-3/Packages/TypeScript/TypeScript.sublime-settings",
 		"/extra/misc/Coding_Projects/js/http-request/src/ResponseHandler.ts",
-		"/extra/misc/Coding_Projects/js/http-request/src/index.ts",
 		"/extra/misc/Coding_Projects/js/test-request/src/test.ts",
 		"/extra/misc/Coding_Projects/js/test-request/src/test.js",
 		"/extra/misc/Coding_Projects/web/applications/TL/docker/dev/docker-compose.yml",
@@ -813,24 +867,7 @@
 		"/extra/misc/Coding_Projects/web/applications/TR/src/server/importing/importers/imports.py",
 		"/extra/misc/Coding_Projects/web/applications/TR/test/server/datetime_test.py",
 		"/extra/misc/Coding_Projects/web/applications/TR/docker/dev/docker-compose.yml",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/discovery.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/structure.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/language/da_DK.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/Dockerfile",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/extensions/localtime/news.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/extensions/localtime/settings.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/test/server/__init__.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/docker/prod/rancher-compose.yml",
-		"/home/clayzzz/.config/sublime-text-3/Packages/Anaconda/Default (Linux).sublime-keymap",
-		"/home/clayzzz/.config/sublime-text-3/Packages/User/Anaconda.sublime-settings",
-		"/home/clayzzz/.config/sublime-text-3/Packages/Anaconda/Anaconda.sublime-settings",
-		"/home/clayzzz/.config/sublime-text-3/Packages/User/Python.sublime-settings",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/db/queryset/news_queryset.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/settings.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/structure_type.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/user.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/discovery_type.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/news_source.py"
+		"/extra/misc/Coding_Projects/web/applications/TR/src/server/settings/endpoint/discovery.py"
 	],
 	"find":
 	{
@@ -852,6 +889,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"req",
 			"this",
 			"HttpErr",
 			"subjectNews",
@@ -980,11 +1018,12 @@
 			"\n    "
 		],
 		"highlight": true,
-		"in_selection": false,
+		"in_selection": true,
 		"preserve_case": true,
 		"regex": false,
 		"replace_history":
 		[
+			"request",
 			"news",
 			"language",
 			"_translation",
@@ -1027,34 +1066,30 @@
 			[
 				{
 					"buffer": 0,
-					"file": "test/api_tests.ts",
+					"file": "test/http_request_tests.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4867,
+						"buffer_size": 8083,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4860,
-								4860
+								5295,
+								5295
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							},
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4485.0,
+						"translation.y": 3933.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1062,30 +1097,29 @@
 				},
 				{
 					"buffer": 1,
-					"file": "test/http_request_tests.ts",
+					"file": "src/fail_response.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4297,
+						"buffer_size": 496,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2702,
-								2702
+								424,
+								424
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
+							"translate_tabs_to_spaces": false,
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 138.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1093,62 +1127,54 @@
 				},
 				{
 					"buffer": 2,
-					"file": "src/response_handler.ts",
+					"file": "package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2564,
+						"buffer_size": 996,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2420,
-								2420
+								532,
+								532
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							},
-							"use_tab_stops": false
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 690.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "src/typings/index.d.ts",
+					"file": "src/exceptions/api_error.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1751,
+						"buffer_size": 182,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								242,
-								242
+								118,
+								118
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
@@ -1160,19 +1186,48 @@
 				},
 				{
 					"buffer": 4,
-					"file": "src/typings/params.d.ts",
+					"file": "test/api_tests.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 170,
+						"buffer_size": 10930,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								89,
-								89
+								4974,
+								4974
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4120.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/typings/global.d.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 320,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1,
+								1
 							]
 						],
 						"settings":
@@ -1184,30 +1239,87 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "src/request_api/params.ts",
+					"buffer": 6,
+					"file": "src/exceptions/http_error.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 596,
+						"buffer_size": 277,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								230,
-								230
+								275,
+								275
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/exceptions/http_request_error.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 220,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								218,
+								218
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/typings/internal.d.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 293,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								132,
+								132
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
 							"typescript_plugin_format_options":
 							{
 								"convertTabsToSpaces": false,
@@ -1220,7 +1332,37 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/typings/index.d.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1866,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1501,
+								1501
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1104.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1277,7 +1419,7 @@
 	"project": "http-request.sublime-project",
 	"replace":
 	{
-		"height": 64.0
+		"height": 72.0
 	},
 	"save_all_on_build": true,
 	"select_file":

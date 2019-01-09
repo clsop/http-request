@@ -39,7 +39,6 @@ describe("http request tests", () => {
 
     @suite("api selection")
     class ApiSelection {
-        //@test.skip
         @test("should use fetch api when avalable")
         public useFetchApi() {
             // act
@@ -49,7 +48,6 @@ describe("http request tests", () => {
             request["api"].should.be.instanceof(FetchApi);
         }
 
-        //@test.skip
         @test("should use selected api")
         public useSelectedApi() {
             // arrange
@@ -62,7 +60,6 @@ describe("http request tests", () => {
             request["api"].should.be.instanceof(XhrApi);
         }
 
-        //@test.skip
         @test("should throw error if selected api is not available")
         public throwWhenNotAvailable() {
             // arrange
@@ -76,7 +73,7 @@ describe("http request tests", () => {
             let expectation = () => new HttpRequest({}, apiSelection);
 
             // assert
-            expectation.should.throw(Error);
+            expectation.should.throw(Error, { name: "api" });
         }
 
         @test.skip

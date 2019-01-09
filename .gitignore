@@ -1,3 +1,7 @@
+# build
+**/*.js
+**/*.map
+
 # npm
 npm-debug.log
 node_modules
