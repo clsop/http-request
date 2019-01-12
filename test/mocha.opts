@@ -1,4 +1,4 @@
 --full-trace
 --bail
---recursive test/tmp/test
+--recursive test/tmp
 --ui mocha-typescript

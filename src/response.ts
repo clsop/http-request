@@ -1,4 +1,4 @@
-export default class Reponse<T> implements IResponse<T> {
+export default class Reponse<T> implements Http.IResponse<T> {
 	constructor(private status: number, private statusText: string, private headers: Map<string, string>,
 		private responseType: string, private responseText: string, private responseData: T) {
 	}

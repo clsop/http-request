@@ -17,7 +17,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		}, params);
 	}
 
-    public setMethod(method: Method): void {
+    public setMethod(method: Http.Method): void {
     	this.params.method = method;
     }
 
@@ -33,7 +33,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		this.params.url = url;
 	}
 
-	public setCredentials(credentials: Credentials): void {
+	public setCredentials(credentials: Http.Credentials): void {
 		this.params.credentials = credentials;
 	}
 
@@ -41,8 +41,8 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		this.abortController.abort();
 	}
 
-	public async execute(data?: D): Promise<IResponse<R>> {
-		let promise: Promise<IResponse<R>> = null;
+	public async execute(data?: D): Promise<Http.IResponse<R>> {
+		let promise: Promise<Http.IResponse<R>> = null;
 		let headers = Object.create(null);
 		let credentials: RequestCredentials = this.params.credentials ? "include" : "same-origin";
 
@@ -69,7 +69,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 			}
 
 			let response: Response = await Promise.race(promises);
-			promise = new Promise<IResponse<R>>(async (resolve: Resolve<IResponse<R>>, reject: Reject) => {
+			promise = new Promise<Http.IResponse<R>>(async (resolve: Resolve<Http.IResponse<R>>, reject: Reject) => {
 				let text: string = await response.text();
 				let data: R = await response.json();
 				let headers = new Map<string, string>();
@@ -85,7 +85,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 				}
 			});
 		} catch (ex) {
-			promise = new Promise((resolve: Resolve<IResponse<R>>, reject: Reject) => {
+			promise = new Promise((resolve: Resolve<Http.IResponse<R>>, reject: Reject) => {
 				reject(ex);
 			});
 		}

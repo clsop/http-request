@@ -1,1 +1,0 @@
-export { HttpRequest } from './src/http_request';

@@ -1,13 +1,13 @@
-export default class Params implements IParams {
-	public method: Method;
+export default class Params {
+	public method: Http.Method;
 	public url: string;
 	public useCredentials: boolean;
 	public timeout: number = 0;
 	public username: string = null;
 	public password: string = null;
-	public headers;
+	public headers: Map<string, string>;
 
-	constructor(url: string, method: Method = "GET", useCredentials: boolean = false, timeout?: number, username?: string, password?: string) {
+	constructor(url: string, method: Http.Method = "GET", useCredentials: boolean = false, timeout?: number, username?: string, password?: string) {
 		this.method = method;
 		this.url = url;
 		this.timeout = timeout;

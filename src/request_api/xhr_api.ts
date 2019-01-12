@@ -2,7 +2,7 @@ import { ResponseType } from '../response_type';
 import ResponseHandler from '../response_handler';
 
 export default class XhrApi<R, D> implements IRequestApi<R, D> {
-	private promise: Promise<IResponse<R>>;
+	private promise: Promise<Http.IResponse<R>>;
 	private xhr: XMLHttpRequest;
     private params: IParamsInternal;
 
@@ -27,7 +27,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
 		this.xhr = xhr;
 	}
 
-	private eventHook = (responseType: ResponseType, resolver: Resolver<IResponse<R>>) => {
+	private eventHook = (responseType: ResponseType, resolver: Resolver<Http.IResponse<R>>) => {
         return (e: Event | UIEvent | ProgressEvent) => {
             let xhr = e.target as XMLHttpRequest;
             let responseHandler = new ResponseHandler<R>(xhr);
@@ -36,7 +36,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
         };
     };
 
-    public setMethod(method: Method): void {
+    public setMethod(method: Http.Method): void {
     	this.params.method = method;
     }
 
@@ -52,7 +52,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
 		this.params.url = url;
 	}
 
-    public setCredentials(credentials: Credentials): void {
+    public setCredentials(credentials: Http.Credentials): void {
         this.params.credentials = credentials;
     }
 
@@ -60,7 +60,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
 		this.xhr.abort();
 	}
 
-	public async execute(data?: D): Promise<IResponse<R>> {
+	public async execute(data?: D): Promise<Http.IResponse<R>> {
         if (this.params.credentials) {
             this.xhr.open(this.params.method, this.params.url, true, this.params.credentials.username, this.params.credentials.password);
             this.xhr.withCredentials = true;

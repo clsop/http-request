@@ -1,11 +1,11 @@
 {
   "name": "@shanknet/http-request",
-  "version": "0.0.9.1",
+  "version": "0.1.0",
   "description": "Simple wrapper module for making http requests on the client.",
   "license": "MIT",
   "author": "clsop <shanknet85@gmail.com>",
-  "main": "index.js",
-  "typings": "src/typings/index.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "nyc": {
     "include": [
       "test/tmp/src/**/*.js"
@@ -20,19 +20,20 @@
       "source-map-support/register"
     ],
     "reporter": [
-      "text-summary",
-      "text"
+      "text",
+      "text-summary"
     ],
     "all": false,
     "sourceMap": true,
     "instrument": true
   },
   "scripts": {
-    "build": "tsc --build .",
-    "pretest": "tsc --outDir test/tmp",
+    "build": "rm -rf lib/* && tsc",
+    "pretest": "rm -rf test/tmp && tsc --build tsconfig-test.json",
     "test": "nyc mocha"
   },
   "devDependencies": {
+    "@shanknet-types/http-request": "^0.1.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.1.2",
     "@types/sinon": "^7.0.3",

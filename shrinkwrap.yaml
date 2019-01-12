@@ -1,4 +1,5 @@
 devDependencies:
+  '@shanknet-types/http-request': 0.1.0
   '@types/mocha': 5.2.5
   '@types/node': 10.12.5
   '@types/sinon': 7.0.3
@@ -91,6 +92,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-RpPOVfK+yatXyn8n4PB1NW6k9qjinrXrRR8ugBN8fD6hCy5RXI6PSbVqpOJBO9oSaY7Nom4ohj35feb0UR9hSA==
+  /@shanknet-types/http-request/0.1.0:
+    dev: true
+    resolution:
+      integrity: sha512-ckg8RylN6kM8mvBnlrGqcQ4IUorsNDUz45QB/Mxz576TpwiV7iRrSXDw3quZrUCI6tHYUs8qGUS7Ek2hbkKLAw==
   /@sinonjs/commons/1.3.0:
     dependencies:
       type-detect: 4.0.8
@@ -914,6 +919,7 @@ registry: 'http://dev.shanknet.local:4873/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
+  '@shanknet-types/http-request': ^0.1.0
   '@types/mocha': ^5.2.5
   '@types/node': ^10.1.2
   '@types/sinon': ^7.0.3

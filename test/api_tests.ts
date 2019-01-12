@@ -57,7 +57,7 @@ describe("api tests", () => {
 		@test("can set method")
 		public canSetMethod() {
 			// arrange
-			let method: Method = "PUT";
+			let method: Http.Method = "PUT";
 
 			// act
 			this.api.setMethod(method);
@@ -250,7 +250,7 @@ describe("api tests", () => {
 		@test("can set method")
 		public canSetMethod() {
 			// arrange
-			let method: Method = "PUT";
+			let method: Http.Method = "PUT";
 
 			// act
 			this.api.setMethod(method);

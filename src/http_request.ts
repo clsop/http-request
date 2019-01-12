@@ -6,11 +6,11 @@ import ApiError from './exceptions/api_error';
 import XhrApi from './request_api/xhr_api';
 import FetchApi from './request_api/fetch_api';
 
-export class HttpRequest<R, D> implements IHttpRequest<R, D> {
+export class HttpRequest<R, D> {
     private readonly api: IRequestApi<R, D>;
-    private readonly parameters: IParameters;
+    private readonly parameters: Http.IParameters;
 
-    constructor(parameters?: IParameters, api?: Api) {
+    constructor(parameters?: Http.IParameters, api?: Http.Api) {
         let fetchApi = (): IRequestApi<R, D> => new FetchApi(parameters);
         let xhrApi = (): IRequestApi<R, D> => new XhrApi(parameters);
 
@@ -24,7 +24,7 @@ export class HttpRequest<R, D> implements IHttpRequest<R, D> {
         }
 
         // defaults
-        this.parameters = Object.assign<IParameters, IParameters>({
+        this.parameters = Object.assign<Http.IParameters, Http.IParameters>({
             url: null,
             method: null,
             headers: new Map<string, string>()
@@ -34,7 +34,7 @@ export class HttpRequest<R, D> implements IHttpRequest<R, D> {
 
     private validUrl = (url: string): boolean => /^(http|https):\/\/(?:w{3}\.)?.+(?:\.).+/.test(url);
 
-    public setPatience(eagerness: Eagerness = "WHENEVER") {
+    public setPatience(eagerness: Http.Eagerness = "WHENEVER") {
 
         switch (eagerness) {
             case "NOW":
@@ -77,7 +77,7 @@ export class HttpRequest<R, D> implements IHttpRequest<R, D> {
         this.api.setHeader(header, value);
     }
 
-    public setCredentials(credentials: Credentials) {
+    public setCredentials(credentials: Http.Credentials) {
         this.api.setCredentials(credentials);
     }
 
@@ -85,7 +85,7 @@ export class HttpRequest<R, D> implements IHttpRequest<R, D> {
         this.api.abort();
     }
 
-    public async send(method?: Method, data?: D): Promise<IResponse<R>> {
+    public async send(method?: Http.Method, data?: D): Promise<Http.IResponse<R>> {
         if (!this.validUrl(this.parameters.url)) {
             throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${this.parameters.url}`);
         }

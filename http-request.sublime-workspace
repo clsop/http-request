@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"http",
+				"http-request"
+			],
+			[
 				"res",
 				"responseMock\tlet"
 			],
@@ -510,10 +514,6 @@
 			[
 				"B",
 				"MAX_BITRATE"
-			],
-			[
-				"RA",
-				"RATE_HZ"
 			]
 		]
 	},
@@ -643,16 +643,53 @@
 	},
 	"expanded_folders":
 	[
-		"/extra/misc/Coding_Projects/js/http-request"
+		"/extra/misc/Coding_Projects/js/http-request",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0/node_modules",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0/node_modules/@shanknet-types",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0/node_modules/@shanknet-types/http-request",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@types",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@types/mocha",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@types/mocha/5.2.5",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@types/mocha/5.2.5/node_modules",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@types/mocha/5.2.5/node_modules/@types",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@types/mocha/5.2.5/node_modules/@types/mocha",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@types/node",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/mocha-typescript",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/mocha-typescript/1.1.17",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/mocha-typescript/1.1.17/node_modules",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/mocha-typescript/1.1.17/node_modules/mocha-typescript",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/@shanknet-types",
+		"/extra/misc/Coding_Projects/js/http-request/src",
+		"/extra/misc/Coding_Projects/js/http-request/src/typings"
 	],
 	"file_history":
 	[
-		"/extra/misc/Coding_Projects/js/http-request/package.json",
-		"/extra/misc/Coding_Projects/js/http-request/.gitignore",
 		"/extra/misc/Coding_Projects/js/http-request/src/typings/internal.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0/node_modules/@shanknet-types/http-request/index.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0/node_modules/@shanknet-types/http-request/package.json",
+		"/extra/misc/Coding_Projects/js/http-request/tsconfig-test.json",
+		"/extra/misc/Coding_Projects/js/http-request/tsconfig.json",
+		"/extra/misc/Coding_Projects/js/http-request/package.json",
 		"/extra/misc/Coding_Projects/js/http-request/src/typings/index.d.ts",
-		"/extra/misc/Coding_Projects/js/http-request/test/http_request_tests.ts",
+		"/extra/misc/Coding_Projects/js/http-request/lib/index.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/http_request.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/request_api/fetch_api.ts",
+		"/extra/misc/Coding_Projects/js/http-request/.npmignore",
+		"/extra/misc/Coding_Projects/js/http-request/test/mocha.opts",
+		"/extra/misc/Coding_Projects/js/http-request/src/request_api/params.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/fail_response.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/response.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/exceptions/http_response_error.ts",
+		"/extra/misc/Coding_Projects/js/http-request/lib/index.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/index.ts",
+		"/extra/misc/Coding_Projects/js/http-request/index.ts",
+		"/extra/misc/Coding_Projects/js/http-request/.gitignore",
+		"/extra/misc/Coding_Projects/js/http-request/test/http_request_tests.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/exceptions/api_error.ts",
 		"/extra/misc/Coding_Projects/js/http-request/test/api_tests.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/typings/global.d.ts",
@@ -666,16 +703,10 @@
 		"/extra/misc/Coding_Projects/js/http-request/test/success_tests.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/response_handler.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/response_type.ts",
-		"/extra/misc/Coding_Projects/js/http-request/src/http_request.ts",
-		"/extra/misc/Coding_Projects/js/http-request/src/response.ts",
-		"/extra/misc/Coding_Projects/js/http-request/src/index.ts",
-		"/extra/misc/Coding_Projects/js/http-request/src/request_api/params.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/typescript/3.2.2/node_modules/typescript/lib/lib.dom.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.npmrc",
-		"/extra/misc/Coding_Projects/js/http-request/tsconfig.json",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/sinon/7.0.3/node_modules/@types/sinon/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/request_api/xhr_api.ts",
-		"/extra/misc/Coding_Projects/js/http-request/test/mocha.opts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/node/10.12.2/node_modules/@types/node/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/node/10.12.5/node_modules/@types/node/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/@types/sinon/4.3.3/node_modules/@types/sinon/index.d.ts",
@@ -765,20 +796,11 @@
 		"/extra/misc/Coding_Projects/web/applications/TR/src/server/parsing/structure_parser.py",
 		"/extra/misc/Coding_Projects/web/applications/TR/src/server/web/exporting/news.py",
 		"/extra/misc/Coding_Projects/web/applications/TR/src/server/web/login/login.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/web/upload.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/models/discovery_identificator.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/test/server/importing/news_importer_test.py",
-		"/extra/misc/Coding_Projects/python/transmission-rpc-content-prepare/test/execution_test.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/test/server/importing/__init__.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/test/server/discovery/__init__.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/test/__init__.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/importing/importer.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/src/server/importing/importers/imports.py",
-		"/extra/misc/Coding_Projects/web/applications/TR/test/server/datetime_test.py"
+		"/extra/misc/Coding_Projects/web/applications/TR/src/server/web/upload.py"
 	],
 	"find":
 	{
-		"height": 33.0
+		"height": 46.0
 	},
 	"find_in_files":
 	{
@@ -796,6 +818,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"IResponse",
 			"req",
 			"this",
 			"HttpErr",
@@ -925,7 +948,7 @@
 			"\n    "
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": true,
 		"regex": false,
 		"replace_history":
@@ -979,7 +1002,7 @@
 	},
 	"input":
 	{
-		"height": 38.0
+		"height": 46.0
 	},
 	"layout":
 	{

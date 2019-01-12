@@ -1,6 +1,7 @@
 # build
 **/*.js
 **/*.map
+lib/
 
 # npm
 npm-debug.log

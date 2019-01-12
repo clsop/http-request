@@ -9,7 +9,7 @@ import XhrApi from '../src/request_api/xhr_api';
 import { HttpRequest } from '../src/http_request';
 
 describe("http request tests", () => {
-    let request: IHttpRequest<any, any>;
+    let request: Http.IHttpRequest<any, any>;
     let globalMock: sinon.SinonMock;
     let windowMock: sinon.SinonMock;
 
@@ -51,7 +51,7 @@ describe("http request tests", () => {
         @test("should use selected api")
         public useSelectedApi() {
             // arrange
-            let apiSelector: Api = "XHR";
+            let apiSelector: Http.Api = "XHR";
 
             // act
             let request = new HttpRequest({}, apiSelector);
@@ -63,7 +63,7 @@ describe("http request tests", () => {
         @test("should throw error if selected api is not available")
         public throwWhenNotAvailable() {
             // arrange
-            let apiSelection: Api = "FETCH";
+            let apiSelection: Http.Api = "FETCH";
 
             globalMock.restore();
             windowMock.restore();
@@ -96,7 +96,7 @@ describe("http request tests", () => {
         @test("should be able to set eagerness")
         public setEagerness() {
             // arrange
-            let eagerness: Eagerness = "NO_HURRY";
+            let eagerness: Http.Eagerness = "NO_HURRY";
             let timeout = 2000;
 
             // act
@@ -182,7 +182,7 @@ describe("http request tests", () => {
         @test("should be able to set eagerness")
         public setEagerness() {
             // arrange
-            let eagerness: Eagerness = "NO_HURRY";
+            let eagerness: Http.Eagerness = "NO_HURRY";
             let timeout = 2000;
 
             // act
