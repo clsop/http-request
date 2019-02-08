@@ -10,8 +10,8 @@ interface IParamsInternal extends Http.IParams {
 
 /**
  * Interface for request api implementations
- * @type {R}
- * @type {D}
+ * @type {R} returned data model
+ * @type {D} request data model
  */
 interface IRequestApi<R, D> {
 	setHeader(header: string, value: string): void;

@@ -1,4 +1,4 @@
-declare module NodeJS  {
+declare namespace NodeJS  {
     interface Global {
 		AbortController: () => { abort: () => void };
 		Headers: () => Map<string, string>;
