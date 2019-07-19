@@ -17,11 +17,11 @@ describe("http request tests", () => {
         // fake and mock fetch api
         let window = Object.create(null, {
             fetch: {
-                value: (input: string | Request, init?: any) => { },
+                value: (input: string | Request, init?: any) => new Promise((resolve, reject) => {}),
                 configurable: true
             }
         });
-        global.fetch = (input: string | Request, init?: any) => { };
+        global.fetch = (input: string | Request, init?: any) => new Promise((resolve, reject) => { });
         global.window = window;
 
         let abortController = { abort: () => { } };
@@ -201,8 +201,8 @@ describe("http request tests", () => {
             let response = {
                 ok: true,
                 headers: new Map<string, string>(),
-                text: () => {},
-                json: () => {}
+                text: () => { },
+                json: () => { }
             };
             let responseMock = sinon.mock(response);
             responseMock.expects("text").resolves("");

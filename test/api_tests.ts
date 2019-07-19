@@ -211,7 +211,7 @@ describe("api tests", () => {
 
 			global.AbortController = () => { return FetchApiTests.abortController; };
 			global.Headers = () => new Map<string, string>();
-			global.fetch = (input: string | Request, init?: any) => {};
+			global.fetch = (input: string | Request, init?: any) => new Promise((resolve, reject) => {});
 		}
 
 		public static after() {

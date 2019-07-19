@@ -53,7 +53,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		});
 
 		try {
-			let promises = [await fetch(this.params.url, {
+			let promises = [fetch(this.params.url, {
 				signal: this.abortController.signal,
 				method: this.params.method,
 				headers: headers,
@@ -62,8 +62,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 			})];
 
 			if (this.params.timeout > 0) {
-				console.log("duhhh");
-				promises.push(await new Promise<any>((resolve, reject) => {
+				promises.push(new Promise<any>((resolve, reject) => {
 					setTimeout(() => reject(new TimeoutError("the request timed out")), this.params.timeout);
 				}));
 			}

@@ -645,15 +645,18 @@
 	[
 		"/extra/misc/Coding_Projects/js/http-request",
 		"/extra/misc/Coding_Projects/js/http-request/src",
-		"/extra/misc/Coding_Projects/js/http-request/src/typings",
-		"/extra/misc/Coding_Projects/js/http-request/test"
+		"/extra/misc/Coding_Projects/js/http-request/src/exceptions",
+		"/extra/misc/Coding_Projects/js/http-request/src/request_api",
+		"/extra/misc/Coding_Projects/js/http-request/src/typings"
 	],
 	"file_history":
 	[
+		"/extra/misc/Coding_Projects/js/http-request/src/typings/index.d.ts",
+		"/extra/misc/Coding_Projects/js/http-request/test/api_tests.ts",
+		"/extra/misc/Coding_Projects/js/http-request/src/response_handler.ts",
 		"/extra/misc/Coding_Projects/js/http-request/tsconfig.json",
 		"/extra/misc/Coding_Projects/js/http-request/global.d.ts",
 		"/extra/misc/Coding_Projects/js/browser-storage/global.d.ts",
-		"/extra/misc/Coding_Projects/js/http-request/test/api_tests.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/typings/global.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/tsconfig-test.json",
 		"/extra/misc/Coding_Projects/js/http-request/test/http_request_tests.ts",
@@ -674,7 +677,6 @@
 		"/extra/misc/Coding_Projects/js/http-request/src/typings/internal.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0/node_modules/@shanknet-types/http-request/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/node_modules/.dev.shanknet.local+4873/@shanknet-types/http-request/0.1.0/node_modules/@shanknet-types/http-request/package.json",
-		"/extra/misc/Coding_Projects/js/http-request/src/typings/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/lib/index.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.npmignore",
 		"/extra/misc/Coding_Projects/js/http-request/test/mocha.opts",
@@ -690,7 +692,6 @@
 		"/extra/misc/Coding_Projects/web/applications/TR/src/client/entry.tsx",
 		"/extra/misc/Coding_Projects/web/applications/TR/src/client/app.tsx",
 		"/extra/misc/Coding_Projects/js/http-request/test/success_tests.ts",
-		"/extra/misc/Coding_Projects/js/http-request/src/response_handler.ts",
 		"/extra/misc/Coding_Projects/js/http-request/src/response_type.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.pnpm-store/2/dev.shanknet.local+4873/typescript/3.2.2/node_modules/typescript/lib/lib.dom.d.ts",
 		"/extra/misc/Coding_Projects/js/http-request/.npmrc",
