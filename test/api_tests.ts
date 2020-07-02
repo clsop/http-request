@@ -12,7 +12,7 @@ describe("api tests", () => {
 	@suite("xhr api tests")
 	class XhrRequestTests {
 		private static requests: Array<sinon.SinonFakeXMLHttpRequest>;
-		private api: IRequestApi<any, any>;
+		private api: HttpRequest.Internal.IRequestApi<any, any>;
 
 		public static before() {
 			XhrRequestTests.requests = [];
@@ -57,7 +57,7 @@ describe("api tests", () => {
 		@test("can set method")
 		public canSetMethod() {
 			// arrange
-			let method: Http.Method = "PUT";
+			let method: HttpRequest.Method = "PUT";
 
 			// act
 			this.api.setMethod(method);
@@ -204,7 +204,7 @@ describe("api tests", () => {
 		private globalMock: sinon.SinonMock;
 		private static abortController: { abort: () => void };
 		private abortSpy: sinon.SinonSpy;
-		private api: IRequestApi<any, any>;
+		private api: HttpRequest.Internal.IRequestApi<any, any>;
 
 		public static before() {
 			FetchApiTests.abortController = { abort: () => {} };
@@ -250,7 +250,7 @@ describe("api tests", () => {
 		@test("can set method")
 		public canSetMethod() {
 			// arrange
-			let method: Http.Method = "PUT";
+			let method: HttpRequest.Method = "PUT";
 
 			// act
 			this.api.setMethod(method);

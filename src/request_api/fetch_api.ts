@@ -2,13 +2,13 @@ import HttpResponse from '../response';
 import HttpFailResponse from '../fail_response';
 import TimeoutError from '../exceptions/timeout_error';
 
-export default class FetchApi<R, D> implements IRequestApi<R, D> {
+export default class FetchApi<R, D> implements HttpRequest.Internal.IRequestApi<R, D> {
 	private abortController: AbortController;
-	private params: IParamsInternal;
+	private params: HttpRequest.Internal.IParams;
 
-	constructor(params?: IParamsInternal) {
+	constructor(params?: HttpRequest.Internal.IParams) {
 		this.abortController = new AbortController();
-		this.params = Object.assign<IParamsInternal, IParamsInternal>({
+		this.params = Object.assign<HttpRequest.Internal.IParams, HttpRequest.Internal.IParams>({
 			method: "GET",
 			url: null,
 			credentials: null,
@@ -17,7 +17,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		}, params);
 	}
 
-    public setMethod(method: Http.Method): void {
+    public setMethod(method: HttpRequest.Method): void {
     	this.params.method = method;
     }
 
@@ -33,7 +33,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		this.params.url = url;
 	}
 
-	public setCredentials(credentials: Http.Credentials): void {
+	public setCredentials(credentials: HttpRequest.Credentials): void {
 		this.params.credentials = credentials;
 	}
 
@@ -41,8 +41,8 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 		this.abortController.abort();
 	}
 
-	public async execute(data?: D): Promise<Http.IResponse<R>> {
-		let promise: Promise<Http.IResponse<R>> = null;
+	public async execute(data?: D): Promise<HttpRequest.IResponse<R>> {
+		let promise: Promise<HttpRequest.IResponse<R>> = null;
 		let headers = Object.create(null);
 		let credentials: RequestCredentials = this.params.credentials ? "include" : "same-origin";
 
@@ -68,7 +68,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 			}
 
 			let response: Response = await Promise.race(promises);
-			promise = new Promise<Http.IResponse<R>>(async (resolve: Resolve<Http.IResponse<R>>, reject: Reject) => {
+			promise = new Promise<HttpRequest.IResponse<R>>(async (resolve: HttpRequest.Internal.Resolve<HttpRequest.IResponse<R>>, reject: HttpRequest.Internal.Reject) => {
 				let text: string = await response.text();
 				let data: R = await response.json();
 				let headers = new Map<string, string>();
@@ -84,7 +84,7 @@ export default class FetchApi<R, D> implements IRequestApi<R, D> {
 				}
 			});
 		} catch (ex) {
-			promise = new Promise((resolve: Resolve<Http.IResponse<R>>, reject: Reject) => {
+			promise = new Promise((resolve: HttpRequest.Internal.Resolve<HttpRequest.IResponse<R>>, reject: HttpRequest.Internal.Reject) => {
 				reject(ex);
 			});
 		}

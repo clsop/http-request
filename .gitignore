@@ -15,6 +15,3 @@ pnm-debug.log
 coverage
 test/tmp
 .nyc_output
-
-# sublime
-*sublime-{project,workspace}

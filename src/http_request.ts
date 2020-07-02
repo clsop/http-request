@@ -7,12 +7,12 @@ import XhrApi from './request_api/xhr_api';
 import FetchApi from './request_api/fetch_api';
 
 export class HttpRequest<R, D> {
-    private readonly api: IRequestApi<R, D>;
-    private readonly parameters: Http.IParameters;
+    private readonly api: HttpRequest.Internal.IRequestApi<R, D>;
+    private readonly parameters: HttpRequest.IParameters;
 
-    constructor(parameters?: Http.IParameters, api?: Http.Api) {
-        let fetchApi = (): IRequestApi<R, D> => new FetchApi(parameters);
-        let xhrApi = (): IRequestApi<R, D> => new XhrApi(parameters);
+    constructor(parameters?: HttpRequest.IParameters, api?: HttpRequest.Api) {
+        let fetchApi = (): HttpRequest.Internal.IRequestApi<R, D> => new FetchApi(parameters);
+        let xhrApi = (): HttpRequest.Internal.IRequestApi<R, D> => new XhrApi(parameters);
 
         switch (api) {
             case "FETCH": {
@@ -24,7 +24,7 @@ export class HttpRequest<R, D> {
         }
 
         // defaults
-        this.parameters = Object.assign<Http.IParameters, Http.IParameters>({
+        this.parameters = Object.assign<HttpRequest.IParameters, HttpRequest.IParameters>({
             url: null,
             method: null,
             headers: new Map<string, string>()
@@ -34,7 +34,7 @@ export class HttpRequest<R, D> {
 
     private validUrl = (url: string): boolean => /^(http|https):\/\/(?:w{3}\.)?.+(?:\.).+/.test(url);
 
-    public setPatience(eagerness: Http.Eagerness = "WHENEVER") {
+    public setPatience(eagerness: HttpRequest.Eagerness = "WHENEVER") {
 
         switch (eagerness) {
             case "NOW":
@@ -77,7 +77,7 @@ export class HttpRequest<R, D> {
         this.api.setHeader(header, value);
     }
 
-    public setCredentials(credentials: Http.Credentials) {
+    public setCredentials(credentials: HttpRequest.Credentials) {
         this.api.setCredentials(credentials);
     }
 
@@ -85,7 +85,7 @@ export class HttpRequest<R, D> {
         this.api.abort();
     }
 
-    public async send(method?: Http.Method, data?: D): Promise<Http.IResponse<R>> {
+    public async send(method?: HttpRequest.Method, data?: D): Promise<HttpRequest.IResponse<R>> {
         if (!this.validUrl(this.parameters.url)) {
             throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${this.parameters.url}`);
         }

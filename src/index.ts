@@ -1,1 +1,1 @@
-export { HttpRequest } from '../src/http_request';
+export { HttpRequest } from './http_request';

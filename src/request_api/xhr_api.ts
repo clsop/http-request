@@ -1,13 +1,13 @@
 import { ResponseType } from '../response_type';
 import ResponseHandler from '../response_handler';
 
-export default class XhrApi<R, D> implements IRequestApi<R, D> {
-	private promise: Promise<Http.IResponse<R>>;
+export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R, D> {
+	private promise: Promise<HttpRequest.IResponse<R>>;
 	private xhr: XMLHttpRequest;
-    private params: IParamsInternal;
+    private params: HttpRequest.Internal.IParams;
 
-	constructor(params?: IParamsInternal) {
-        this.params = Object.assign<IParamsInternal, IParamsInternal>({
+	constructor(params?: HttpRequest.Internal.IParams) {
+        this.params = Object.assign<HttpRequest.Internal.IParams, HttpRequest.Internal.IParams>({
             method: "GET",
             url: null,
             credentials: null,
@@ -27,7 +27,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
 		this.xhr = xhr;
 	}
 
-	private eventHook = (responseType: ResponseType, resolver: Resolver<Http.IResponse<R>>) => {
+	private eventHook = (responseType: ResponseType, resolver: HttpRequest.Internal.Resolver<HttpRequest.IResponse<R>>) => {
         return (e: Event | UIEvent | ProgressEvent) => {
             let xhr = e.target as XMLHttpRequest;
             let responseHandler = new ResponseHandler<R>(xhr);
@@ -36,7 +36,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
         };
     };
 
-    public setMethod(method: Http.Method): void {
+    public setMethod(method: HttpRequest.Method): void {
     	this.params.method = method;
     }
 
@@ -52,7 +52,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
 		this.params.url = url;
 	}
 
-    public setCredentials(credentials: Http.Credentials): void {
+    public setCredentials(credentials: HttpRequest.Credentials): void {
         this.params.credentials = credentials;
     }
 
@@ -60,7 +60,7 @@ export default class XhrApi<R, D> implements IRequestApi<R, D> {
 		this.xhr.abort();
 	}
 
-	public async execute(data?: D): Promise<Http.IResponse<R>> {
+	public async execute(data?: D): Promise<HttpRequest.IResponse<R>> {
         if (this.params.credentials) {
             this.xhr.open(this.params.method, this.params.url, true, this.params.credentials.username, this.params.credentials.password);
             this.xhr.withCredentials = true;

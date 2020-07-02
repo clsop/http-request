@@ -41,6 +41,7 @@ export default class ResponseHandler<T> {
     }
 
     public getResponse(responseType: ResponseType): Response<T> {
+        /// TODO: content handling
         //let contentType = this.xhr.getResponseHeader('Content-Type');
         let response = null;
         
