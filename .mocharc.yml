@@ -1,0 +1,6 @@
+require: [
+  source-map-support/register,
+  ts-node/register
+]
+bail: false
+spec: "test/**/*.spec.ts"

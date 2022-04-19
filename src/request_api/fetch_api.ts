@@ -89,6 +89,6 @@ export default class FetchApi<R, D> implements HttpRequest.Internal.IRequestApi<
 			});
 		}
 
-		return promise;
+		return await promise;
 	}
 }

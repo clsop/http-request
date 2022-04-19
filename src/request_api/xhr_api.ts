@@ -81,6 +81,6 @@ export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R,
         	this.xhr.send();
         }
 
-		return this.promise;
+		return await this.promise;
 	}
 }

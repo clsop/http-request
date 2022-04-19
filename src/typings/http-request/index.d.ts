@@ -50,7 +50,7 @@ declare namespace HttpRequest.Internal {
 	}
 }
 
-declare namespace HttpRequest {
+declare module HttpRequest {
 	interface IResponse<T> {
 		getHeaders(): Map<string, string>;
 		getStatus(): number;

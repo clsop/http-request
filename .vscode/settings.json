@@ -1,4 +1,10 @@
 {
     "javascript.implicitProjectConfig.experimentalDecorators": true,
-    "typescript.locale": "en"
+    "typescript.locale": "en",
+    "javascript.format.semicolons": "insert",
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "typescript.tsserver.log": "normal",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "typescript.format.semicolons": "insert",
+    "typescript.implementationsCodeLens.enabled": true
 }
