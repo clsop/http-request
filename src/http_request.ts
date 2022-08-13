@@ -16,11 +16,11 @@ export class HttpRequest<R, D> {
 
         switch (api) {
             case "FETCH": {
-                if (!("fetch" in window)) throw new ApiError("fetch api is not available");
+                if (!("fetch" in global)) throw new ApiError("fetch api is not available");
                 this.api = fetchApi();
             } break;
             case "XHR": this.api = xhrApi(); break;
-            default: this.api = "fetch" in window ? fetchApi() : xhrApi(); break;
+            default: this.api = "fetch" in global ? fetchApi() : xhrApi(); break;
         }
 
         // defaults

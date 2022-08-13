@@ -61,6 +61,7 @@ export default class FetchApi<R, D> implements HttpRequest.Internal.IRequestApi<
 				body: data ? (typeof data === "string" ? <string>data : JSON.stringify(data)) : null
 			})];
 
+			// TODO: use better timeout mechanism
 			if (this.params.timeout > 0) {
 				promises.push(new Promise<any>((resolve, reject) => {
 					setTimeout(() => reject(new TimeoutError("the request timed out")), this.params.timeout);

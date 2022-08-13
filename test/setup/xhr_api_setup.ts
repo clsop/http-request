@@ -1,8 +1,10 @@
 import * as sinon from 'sinon';
 
 let xmlHttpRequests: Array<sinon.SinonFakeXMLHttpRequest> = new Array<sinon.SinonFakeXMLHttpRequest>();
-global.XMLHttpRequest.prototype = sinon.useFakeXMLHttpRequest();
-global.XMLHttpRequest.onCreate = (xhr: sinon.SinonFakeXMLHttpRequest) => {
+
+// TODO: fix typing for fake xhr setup
+(<any>global.XMLHttpRequest) = sinon.useFakeXMLHttpRequest();
+(<any>global.XMLHttpRequest).onCreate = (xhr: sinon.SinonFakeXMLHttpRequest) => {
 	xmlHttpRequests.push(xhr);
 }
 

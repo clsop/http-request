@@ -1,6 +1,4 @@
 # build
-**/*.js
-**/*.map
 lib/
 
 # npm
@@ -13,5 +11,4 @@ pnm-debug.log
 
 # test
 coverage
-test/tmp
 .nyc_output

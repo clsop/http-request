@@ -3,17 +3,13 @@ import 'should';
 import { suite, test } from "@testdeck/mocha";
 
 import FetchApi from '../src/request_api/fetch_api';
+import Response from '../src/response';
+import FailResponse from '../src/fail_response';
 import fetchApiFixture from './setup/fetch_api_setup';
 
 @suite("fetch api tests")
 class FetchApiTests {
-	private api: HttpRequest.Internal.IRequestApi<any, any>;
-
-	public static before() {
-	}
-
-	public static after() {
-	}
+	private api: any;
 
 	public before() {
 		this.api = new FetchApi();
@@ -35,7 +31,7 @@ class FetchApiTests {
 	@test("can construct without parameters")
 	public canConstructWithoutParams() {
 		// arrange, act
-		let api = new FetchApi();
+		let api: any = new FetchApi();
 
 		// assert
 		api.should.not.be.null();
@@ -111,7 +107,7 @@ class FetchApiTests {
 		this.api.setTimeout(10);
 
 		// act, assert
-		this.api.execute().catch((reason) => {
+		this.api.execute().catch((reason: Error) => {
 			reason.name.should.be.equal(errorType);
 			done();
 		});
@@ -138,7 +134,7 @@ class FetchApiTests {
 		//fetchApiFixture.fetchSpy.resolves(response);
 
 		// act, assert
-		this.api.execute().then((res) => {
+		this.api.execute().then((res: Response<any>) => {
 			res.getStatus().should.be.equal(response.status);
 			res.getStatusText().should.be.equal(response.statusText);
 			res.getResponseType().should.be.equal(response.type);
@@ -173,7 +169,7 @@ class FetchApiTests {
 		//this.globalMock.expects("fetch").resolves(response);
 
 		// act, assert
-		this.api.execute(requestData).then((res) => {
+		this.api.execute(requestData).then((res: Response<any>) => {
 			res.getStatus().should.be.equal(response.status);
 			res.getStatusText().should.be.equal(response.statusText);
 			res.getResponseType().should.be.equal(response.type);
@@ -208,7 +204,7 @@ class FetchApiTests {
 		//this.globalMock.expects("fetch").resolves(response);
 
 		// act, assert
-		this.api.execute().catch((res) => {
+		this.api.execute().catch((res: FailResponse<any>) => {
 			res.getStatus().should.be.equal(response.status);
 			res.getStatusText().should.be.equal(response.statusText);
 			res.getResponseType().should.be.equal(response.type);
@@ -229,7 +225,7 @@ class FetchApiTests {
 		//this.globalMock.expects("fetch").rejects(errorType);
 
 		// act, assert
-		this.api.execute().catch((reason) => {
+		this.api.execute().catch((reason: Error) => {
 			reason.name.should.be.equal(errorType);
 			done();
 		});

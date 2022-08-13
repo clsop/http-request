@@ -19,7 +19,7 @@ export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R,
 		this.promise = new Promise((resolve, reject) => {
             let failed = this.eventHook(ResponseType.Failure, reject);
 
-            xhr.addEventListener('load', this.eventHook(0, resolve));
+            xhr.addEventListener('load', this.eventHook(ResponseType.Success, resolve));
             xhr.addEventListener('error', failed);
             xhr.addEventListener('timeout', failed);
             xhr.addEventListener('abort', failed);

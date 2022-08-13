@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+      "module": "commonjs",
+      "noImplicitAny": true,
+      "removeComments": false,
+      "preserveConstEnums": false,
+      "sourceMap": true,
+      "target": "esnext",
+      "lib": ["dom", "es6"]
+  },
+  "include": [
+      "src/**/*",
+      "tests/**/*"
+  ]
+}

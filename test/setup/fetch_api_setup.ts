@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
 
-global.fetch = (input: RequestInfo, init?: RequestInit) => new Promise<Response>((res, rej) => {});
+global.fetch = (input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((res, rej) => {});
 
 let fetchSpy: sinon.SinonSpy = sinon.spy(global, "fetch");
 let abortSpy: sinon.SinonSpy = sinon.spy(global.AbortController.prototype, "abort");

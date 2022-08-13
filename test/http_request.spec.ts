@@ -1,6 +1,5 @@
-import * as sinon from 'sinon';
 import 'should';
-import { describe, before, after, beforeEach, afterEach } from "mocha";
+import { describe, beforeEach } from "mocha";
 import { suite, test } from "@testdeck/mocha";
 
 import ErrorMessage from '../src/errors';
@@ -9,32 +8,10 @@ import XhrApi from '../src/request_api/xhr_api';
 import { HttpRequest } from '../src/http_request';
 
 describe("http request tests", () => {
-    let request: HttpRequest.IHttpRequest<any, any>;
-    // let globalMock: sinon.SinonMock;
-    // let windowMock: sinon.SinonMock;
+    let request: any;
 
     beforeEach(() => {
-        // fake and mock fetch api
-        // let window = Object.create(null, {
-        //     fetch: {
-        //         value: (input: string | Request, init?: any) => new Promise((resolve, reject) => {}),
-        //         configurable: true
-        //     }
-        // });
-        // global.fetch = (input: string | Request, init?: any) => new Promise((resolve, reject) => { });
-        // global.window = window;
-
-        // let abortController = { abort: () => { } };
-        // global.AbortController = () => { return abortController; };
-        // windowMock = sinon.mock(global.window);
-        // globalMock = sinon.mock(global);
-
         request = new HttpRequest({ url: 'http://fakeRequest.local' });
-    });
-
-    afterEach(() => {
-        // globalMock.restore();
-        // windowMock.restore();
     });
 
     @suite("api selection")
@@ -65,9 +42,7 @@ describe("http request tests", () => {
             // arrange
             let apiSelection: HttpRequest.Api = "FETCH";
 
-            // globalMock.restore();
-            // windowMock.restore();
-            // global.window = Object.create(null);
+            delete global.fetch;
 
             // act
             let expectation = () => new HttpRequest({}, apiSelection);

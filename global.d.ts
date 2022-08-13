@@ -1,4 +1,4 @@
-declare namespace NodeJS {
+declare module NodeJS {
 	interface Global {
 		XMLHttpRequest: sinon.SinonFakeXMLHttpRequestStatic;
 	}

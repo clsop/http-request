@@ -6,7 +6,7 @@ import xhrApiFixture from './setup/xhr_api_setup';
 
 @suite("xhr api tests")
 class XhrRequestTests {
-	private api: HttpRequest.Internal.IRequestApi<any, any>;
+	private api: any;
 
 	public static before() {
 	}
@@ -112,7 +112,7 @@ class XhrRequestTests {
 		this.api.setTimeout(500);
 
 		// act, assert
-		this.api.execute().catch((reason) => {
+		this.api.execute().catch((reason: Error) => {
 			// assert
 			reason.should.be.equal(errorType);
 			done();
@@ -157,7 +157,7 @@ class XhrRequestTests {
 		let status = 0;
 
 		// act, assert
-		this.api.execute().catch((reason) => {
+		this.api.execute().catch((reason: string) => {
 			reason.should.be.equal(errorType);
 			done();
 		});
@@ -175,7 +175,7 @@ class XhrRequestTests {
 		let status = 0;
 
 		// act, assert
-		this.api.execute().catch((reason) => {
+		this.api.execute().catch((reason: string) => {
 			reason.should.be.equal(errorType);
 			done();
 		});
