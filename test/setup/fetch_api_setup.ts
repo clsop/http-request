@@ -1,9 +1,11 @@
 import * as sinon from 'sinon';
+import 'isomorphic-fetch'
 
-global.fetch = (input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((res, rej) => {});
+let fetchSpy: sinon.SinonStub = sinon.stub(global, "fetch");
+let abortSpy: sinon.SinonStub = sinon.stub(global.AbortController.prototype, "abort");
 
-let fetchSpy: sinon.SinonSpy = sinon.spy(global, "fetch");
-let abortSpy: sinon.SinonSpy = sinon.spy(global.AbortController.prototype, "abort");
+fetchSpy.callThrough();
+abortSpy.callThrough();
 
 let reset = () => {
 	abortSpy.resetHistory();

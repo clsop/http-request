@@ -1,17 +1,13 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-      "noImplicitAny": true,
-      "removeComments": true,
-      "preserveConstEnums": true,
-      "sourceMap": false,
-      "outDir": "lib"
+    "target": "es5",
+    "module": "NodeNext",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "outDir": "lib"
   },
-  "exclude": [
-      "node_modules",
-      "test"
-  ],
-  "include": [
-      "src/**/*"
-  ]
+  "exclude": ["node_modules", "test", "global.d.ts"]
 }

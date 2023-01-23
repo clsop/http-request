@@ -1,9 +1,9 @@
 import Response from './response';
 
-export default class FailResponse<T> extends Response<T> {
+export default class FailResponse extends Response<any> {
 	constructor(status: number, statusText: string, headers: Map<string, string>,
-		responseType: string, responseText: string, responseData: T) {
-		super(status, statusText, headers, responseType, responseText, responseData);
+		responseType: string) {
+		super(status, statusText, headers, responseType, null, null);
 	}
 
 	public isServerError(): boolean {

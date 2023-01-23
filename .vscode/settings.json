@@ -1,5 +1,6 @@
 {
-    "javascript.implicitProjectConfig.experimentalDecorators": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
     "typescript.locale": "en",
     "javascript.format.semicolons": "insert",
     "typescript.tsdk": "./node_modules/typescript/lib",
@@ -7,5 +8,5 @@
     "typescript.enablePromptUseWorkspaceTsdk": false,
     "typescript.format.semicolons": "insert",
     "typescript.implementationsCodeLens.enabled": true,
-    "compile-hero.disable-compile-files-on-did-save-code": false
+    "prettier.enable": true,
 }

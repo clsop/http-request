@@ -64,10 +64,10 @@ export default class ResponseHandler<T> {
                     this.formHeaders(this.xhr.getAllResponseHeaders()), this.xhr.responseType,
                     this.xhr.responseText,
                     this.xhr.responseType === 'document' ? this.xhr.responseXML : this.xhr.response); break;
-        	case ResponseType.Failure: response = new FailResponse<T>(this.xhr.status, this.xhr.statusText,
-                    this.formHeaders(this.xhr.getAllResponseHeaders()), this.xhr.responseType,
-                    this.xhr.responseText,
-                    this.xhr.responseType === 'document' ? this.xhr.responseXML : this.xhr.response); break;
+        	case ResponseType.Failure: response = new FailResponse(this.xhr.status, this.xhr.statusText,
+                    this.formHeaders(this.xhr.getAllResponseHeaders()), this.xhr.responseType); break;
+                    // this.xhr.responseText,
+                    // this.xhr.responseType === 'document' ? this.xhr.responseXML : this.xhr.response); break;
         }
 
         return response;

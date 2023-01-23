@@ -2,6 +2,8 @@ import 'should';
 import { describe, beforeEach } from "mocha";
 import { suite, test } from "@testdeck/mocha";
 
+import './setup/xhr_api_setup';
+import './setup/fetch_api_setup';
 import ErrorMessage from '../src/errors';
 import FetchApi from '../src/request_api/fetch_api';
 import XhrApi from '../src/request_api/xhr_api';

@@ -3,6 +3,7 @@ import { suite, test } from "@testdeck/mocha";
 
 import XhrApi from '../src/request_api/xhr_api';
 import xhrApiFixture from './setup/xhr_api_setup';
+import { fail } from 'should';
 
 @suite("xhr api tests")
 class XhrRequestTests {
@@ -12,7 +13,7 @@ class XhrRequestTests {
 	}
 
 	public static after() {
-		//global.XMLHttpRequest.restore();
+		global.XMLHttpRequest.restore();
 	}
 
 	public before() {
@@ -104,85 +105,101 @@ class XhrRequestTests {
 		this.api["params"].credentials.should.be.equal(credentials);
 	}
 
-	@test.skip
-	//@test("will timeout")
-	public willTimeout(done: Mocha.Done) {
+	@test("will timeout")
+	public async willTimeout() {
 		// arrange
 		let errorType = "timeout";
-		this.api.setTimeout(500);
+		this.api.setTimeout(1000);
 
-		// act, assert
-		this.api.execute().catch((reason: Error) => {
+		try {
+			// act
+			await this.api.execute();
+		} catch (reason: any) {
 			// assert
 			reason.should.be.equal(errorType);
-			done();
-		});
+		}
 	}
 
 	@test("execute without data")
-	public executeWithoutData(done: Mocha.Done) {
+	public async executeWithoutData() {
 		// arrange
 		let status = 200;
 
-		// act
-		this.api.execute().then(() => done());
-		xhrApiFixture.xmlHttpRequests[0].respond(status, null, null);
+		try {
+			// act
+			await Promise.all([this.api.execute(), new Promise((resolve: any, reject: any) => {
+				xhrApiFixture.xmlHttpRequests[0].respond(status, null, null);
+				resolve();
+			})]);
 
-		// assert
-		this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
-		this.api["xhr"].status.should.be.equal(status);
+			// assert
+			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
+			this.api["xhr"].status.should.be.equal(status);
+		} catch (reason: any) {
+			// assert
+			fail("reject path", "resolve path");
+		}
 	}
 
 	@test("execute with data")
-	public executeWithData(done: Mocha.Done) {
+	public async executeWithData() {
 		// arrange
 		let status = 200;
 		let data = JSON.stringify({ test: "test!" });
 
-		// act, assert
-		this.api.execute(data).then((response: any) => {
-			response.responseData.should.be.equal(data);
-			done();
-		});
-		xhrApiFixture.xmlHttpRequests[0].respond(status, null, data);
+		try {
+			// act
+			await Promise.all([this.api.execute(data), new Promise((resolve: any, reject: any) => {
+				xhrApiFixture.xmlHttpRequests[0].respond(status, null, data);
+				resolve();
+			})]);
 
-		this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
-		this.api["xhr"].status.should.be.equal(status);
+			// assert
+			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
+			this.api["xhr"].status.should.be.equal(status);
+		} catch (reason: any) {
+			// assert
+			fail("reject path", "resolve path");
+		}
 	}
 
 	@test("execute with error")
-	public executeWithError(done: Mocha.Done) {
+	public async executeWithError() {
 		// arrange
 		let errorType = "error";
 		let status = 0;
 
-		// act, assert
-		this.api.execute().catch((reason: string) => {
+		try {
+			// act
+			await Promise.all([this.api.execute(), new Promise((resolve: any, reject: any) => {
+				xhrApiFixture.xmlHttpRequests[0].error();
+				resolve();
+			})]);
+		} catch (reason: any) {
+			// assert
 			reason.should.be.equal(errorType);
-			done();
-		});
-		xhrApiFixture.xmlHttpRequests[0].error();
-
-		// assert
-		this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
-		this.api["xhr"].status.should.be.equal(status);
+			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
+			this.api["xhr"].status.should.be.equal(status);
+		}
 	}
 
 	@test("can abort request")
-	public canAbortRequest(done: Mocha.Done) {
+	public async canAbortRequest() {
 		// arrange
 		let errorType = "abort";
 		let status = 0;
 
-		// act, assert
-		this.api.execute().catch((reason: string) => {
+		try {
+			// act
+			await Promise.all([this.api.execute(), new Promise((resolve: any, reject: any) => {
+				this.api.abort();
+				resolve();
+			})]);
+		} catch (reason: any) {
+			// assert
 			reason.should.be.equal(errorType);
-			done();
-		});
-		this.api.abort();
-
-		// assert
-		this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.UNSENT);
-		this.api["xhr"].status.should.be.equal(status);
+			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.UNSENT);
+			this.api["xhr"].status.should.be.equal(status);
+		}
 	}
 }

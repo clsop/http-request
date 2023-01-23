@@ -7,41 +7,21 @@
   "author": "clsop <shanknet85@gmail.com>",
   "main": "./lib/index.js",
   "typings": "./typings/http-request/index.d.ts",
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "check-coverage": true,
-    "all": true,
-    "sourceMap": true,
-    "instrument": true,
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "src/test/**/*.*"
-    ],
-    "reporter": [
-      "html",
-      "lcov",
-      "text",
-      "text-summary"
-    ],
-    "report-dir": "coverage"
-  },
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "test": "TS_NODE_PROJECT=./tsconfig.test.json mocha test/**/*.spec.ts",
+    "test": "TS_NODE_PROJECT='./tsconfig.test.json' mocha",
     "test:coverage": "nyc pnpm test"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@testdeck/mocha": "^0.2.0",
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.7.2",
+    "@types/node": "^18.7.14",
     "@types/node-fetch": "^2.6.2",
     "@types/sinon": "^10.0.13",
     "eslint": "^8.21.0",
+    "isomorphic-fetch": "^3.0.0",
     "mocha": "^10.0.0",
-    "node-fetch": "^3.2.10",
     "nyc": "^15.1.0",
     "should": "^13.2.3",
     "sinon": "^14.0.0",

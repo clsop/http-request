@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "lib": ["ES2021", "DOM"],
+    "declaration": false,
+    "declarationMap": false,
+    "moduleResolution": "Node",
+    "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "skipLibCheck": false,
+    "allowJs": false,
+    "strict": false,
+    "typeRoots": ["node_modules/@types", "src/types"]
+  },
+  "exclude": ["node_modules"]
+}

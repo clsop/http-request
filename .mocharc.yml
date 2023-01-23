@@ -1,6 +1,6 @@
-require: [
-  source-map-support/register,
-  ts-node/register
-]
+require: ["ts-node/register", "source-map-support/register"]
+extension: ["ts", "d.ts"]
 bail: false
-spec: "test/**/*.spec.ts"
+parallel: false
+recursive: true
+ui: "bdd"

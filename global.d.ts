@@ -1,5 +1,9 @@
-declare module NodeJS {
-	interface Global {
-		XMLHttpRequest: sinon.SinonFakeXMLHttpRequestStatic;
-	}
+declare namespace NodeJS {
+  interface Global {
+    AbortController: typeof AbortController;
+    fetch: () => void;
+    XMLHttpRequest: sinon.SinonFakeXMLHttpRequestStatic;
+  }
 }
+
+declare var global: NodeJS.Global;

@@ -75,12 +75,16 @@ export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R,
             this.xhr.setRequestHeader(key, val);
         });
 
-        if (data) {
-        	this.xhr.send(JSON.stringify(data));
-        } else {
-        	this.xhr.send();
-        }
+        const promise = await Promise.any([this.promise, new Promise<HttpRequest.IResponse<R>>((resolve: any, reject: any) => {
+            if (data) {
+                this.xhr.send(JSON.stringify(data));
+            } else {
+                this.xhr.send();
+            }
 
-		return await this.promise;
+            resolve();
+        })]);
+
+		return promise;
 	}
 }
