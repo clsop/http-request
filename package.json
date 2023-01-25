@@ -5,11 +5,15 @@
   "description": "Simple wrapper module for making http requests on the client.",
   "license": "MIT",
   "author": "clsop <shanknet85@gmail.com>",
-  "main": "./lib/index.js",
-  "typings": "./typings/http-request/index.d.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./src/types/http-request/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.build.json",
-    "test": "TS_NODE_PROJECT='./tsconfig.test.json' mocha",
+    "build": "concurrently \"pnpm build-cjs\" \"pnpm build-esm\" \"pnpm build-umd\" \"pnpm build-system\"",
+    "build-cjs": "tsc -p tsconfig/tsconfig.cjs.json",
+    "build-esm": "tsc -p tsconfig/tsconfig.esm.json",
+    "build-umd": "tsc -p tsconfig/tsconfig.umd.json",
+    "build-system": "tsc -p tsconfig/tsconfig.system.json",
+    "test": "TS_NODE_PROJECT='tsconfig/tsconfig.test.json' mocha",
     "test:coverage": "nyc pnpm test"
   },
   "devDependencies": {
@@ -19,6 +23,7 @@
     "@types/node": "^18.7.14",
     "@types/node-fetch": "^2.6.2",
     "@types/sinon": "^10.0.13",
+    "concurrently": "^7.6.0",
     "eslint": "^8.21.0",
     "isomorphic-fetch": "^3.0.0",
     "mocha": "^10.0.0",

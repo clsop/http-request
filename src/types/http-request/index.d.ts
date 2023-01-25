@@ -1,28 +1,3 @@
-// /// promise stuff
-// type Resolve<T> = (value?: T | PromiseLike<T>) => void;
-// type Reject = (reason?: any) => void;
-
-// type Resolver<T> = (value?: T | PromiseLike<T> | null | string) => void;
-
-// interface IParamsInternal extends Http.IParams {
-// 	timeout?: number;
-// }
-
-// /**
-//  * Interface for request api implementations
-//  * @type {R} returned data model
-//  * @type {D} request data model
-//  */
-// interface IRequestApi<R, D> {
-// 	setHeader(header: string, value: string): void;
-// 	setTimeout(timeout: number): void;
-// 	setUrl(url: string): void;
-// 	setMethod(method: Http.Method): void;
-// 	setCredentials(credentials: Http.Credentials): void;
-// 	abort(): void;
-// 	execute(data?: D): Promise<Http.IResponse<R>>;
-// }
-
 declare namespace HttpRequest.Internal {
 	/// promise stuff
 	type Resolve<T> = (value?: T | PromiseLike<T>) => void;
@@ -112,6 +87,6 @@ declare namespace HttpRequest {
 	 */
 	type Eagerness = "NOW" | "NO_HURRY" | "HURRY" | "PATIENT" | "REAL_PATIENT" | "WHENEVER";
 
-	type Api = "FETCH" | "XHR";
+	type Api = "FETCH" | "XHR"; // "WEBSOCKET"
 	type Method = "GET" | "POST" | "PUT" | "HEAD" | "OPTIONS" | "PATCH" | "DELETE";
 }

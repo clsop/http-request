@@ -6,7 +6,6 @@ import FetchApi from "../src/request_api/fetch_api";
 import Response from "../src/response";
 import FailResponse from "../src/fail_response";
 import fetchApiFixture from "./setup/fetch_api_setup";
-import { ReadSyncOptions } from "fs";
 
 @suite("fetch api tests")
 class FetchApiTests {
@@ -269,7 +268,7 @@ class FetchApiTests {
     // arrange
     let errorType = "AbortError";
 
-    // KLUDGE: timing seems to interfere here, so we reset the spy and enable callthrough again
+    // timing seems to interfere here, so we reset the spy and enable callthrough again
     fetchApiFixture.fetchSpy.reset();
     fetchApiFixture.fetchSpy.callThrough();
 

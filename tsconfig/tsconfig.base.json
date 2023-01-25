@@ -11,7 +11,7 @@
     "skipLibCheck": false,
     "allowJs": false,
     "strict": false,
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "typeRoots": ["../node_modules/@types", "../src/types"]
   },
-  "exclude": ["node_modules"]
+  "exclude": ["../node_modules"]
 }

@@ -3,6 +3,7 @@ declare namespace NodeJS {
     AbortController: typeof AbortController;
     fetch: () => void;
     XMLHttpRequest: sinon.SinonFakeXMLHttpRequestStatic;
+    window: Window;
   }
 }
 

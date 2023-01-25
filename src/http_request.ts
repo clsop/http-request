@@ -16,11 +16,11 @@ export class HttpRequest<R, D> {
 
         switch (api) {
             case "FETCH": {
-                if (!("fetch" in global)) throw new ApiError("fetch api is not available");
+                if (!("fetch" in globalThis)) throw new ApiError("fetch api is not available");
                 this.api = fetchApi();
             } break;
             case "XHR": this.api = xhrApi(); break;
-            default: this.api = "fetch" in global ? fetchApi() : xhrApi(); break;
+            default: this.api = "fetch" in globalThis ? fetchApi() : xhrApi(); break;
         }
 
         // defaults
@@ -34,7 +34,7 @@ export class HttpRequest<R, D> {
 
     private validUrl = (url: string): boolean => /^(http|https):\/\/(?:w{3}\.)?.+(?:\.).+/.test(url);
 
-    public setPatience(eagerness: HttpRequest.Eagerness = "WHENEVER") {
+    public setPatience(eagerness: HttpRequest.Eagerness = "PATIENT") {
 
         switch (eagerness) {
             case "NOW":
@@ -61,7 +61,7 @@ export class HttpRequest<R, D> {
 
     public setUrl(url: string) {
         if (!this.validUrl(url)) {
-            throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${url}`);
+            throw new HttpRequestError(ErrorMessage.INVALID_URL, `The url supplied was invalid: ${url}`);
         }
 
         this.parameters.url = url;
@@ -85,9 +85,9 @@ export class HttpRequest<R, D> {
         this.api.abort();
     }
 
-    public async send(method?: HttpRequest.Method, data?: D): Promise<HttpRequest.IResponse<R>> {
+    public async execute(method?: HttpRequest.Method, data?: D): Promise<HttpRequest.IResponse<R>> {
         if (!this.validUrl(this.parameters.url)) {
-            throw new HttpRequestError(ErrorMessage.VALID_URL, `The url supplied was invalid: ${this.parameters.url}`);
+            throw new HttpRequestError(ErrorMessage.INVALID_URL, `The url supplied was invalid: ${this.parameters.url}`);
         }
 
         // use any available method supplied (defaults to GET)

@@ -77,7 +77,6 @@ export default class FetchApi<R, D>
         }),
       ];
 
-      // TODO: use better timeout mechanism, rxjs timer ?
       if (this.params.timeout > 0) {
         promises.push(
           new Promise<Response>((resolve, reject) => {
