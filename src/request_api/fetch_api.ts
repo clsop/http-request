@@ -1,5 +1,5 @@
-import HttpResponse from "../response";
-import HttpFailResponse from "../fail_response";
+import SuccessResponse from "../succes_response";
+import FailureResponse from "../failure_response";
 import TimeoutError from "../exceptions/timeout_error";
 
 export default class FetchApi<R, D>
@@ -18,19 +18,54 @@ export default class FetchApi<R, D>
         method: "GET",
         url: null,
         credentials: null,
-        headers: new Map<string, string>(),
+        headers: Object.create(null),
         timeout: 0,
       },
       params
     );
   }
 
-  public setMethod(method: HttpRequest.Method): void {
-    this.params.method = method;
+  private async resolveData(httpResponse: Response): Promise<HttpRequest.IResponse<R>> {
+    let headers: Record<string, string> = {};
+    let text: string = null;
+    let data: R = null;
+
+    // TODO: not sure if this is just an object ?
+    httpResponse.headers.forEach((value, header) => (headers[header] = value));
+
+    try {
+      text = await httpResponse.text();
+      data = await httpResponse.json();
+    } catch (error) {
+      // either text or data is empty and we dont care ?
+    }
+
+    let response: HttpRequest.IResponse<R> = null;
+
+    if (httpResponse.ok) {
+      response = new SuccessResponse<R>(
+        httpResponse.status,
+        httpResponse.statusText,
+        headers,
+        httpResponse.type,
+        text,
+        data
+      );
+    } else {
+      response = new FailureResponse(
+        httpResponse.status,
+        httpResponse.statusText,
+        headers,
+        httpResponse.type,
+        text
+      )
+    }
+
+    return response;
   }
 
-  public setHeader(header: string, value: string): void {
-    this.params.headers.set(header, value);
+  public setMethod(method: HttpRequest.Method): void {
+    this.params.method = method;
   }
 
   public setTimeout(timeout: number): void {
@@ -49,100 +84,55 @@ export default class FetchApi<R, D>
     this.abortController.abort();
   }
 
-  public async execute(data?: D): Promise<HttpRequest.IResponse<R>> {
-    let promise: Promise<HttpRequest.IResponse<R>> = null;
-    let headers = Object.create(null);
+  public async execute(
+    data?: D,
+    additionalHeaders?: Record<string, string>
+  ): Promise<HttpRequest.IResponse<R>> {
     let credentials: RequestCredentials = this.params.credentials
       ? "include"
       : "same-origin";
 
-    this.params.headers.forEach((value, key) => {
-      Object.defineProperty(headers, key, {
-        value: value,
-      });
-    });
+    // overrides param headers
+    let headers = Object.assign<Record<string, string>, Record<string, string>>(
+      Object.create(null),
+      this.params.headers
+    );
+    headers = Object.assign(headers, additionalHeaders);
 
-    try {
-      let promises = [
-        fetch(this.params.url, {
-          signal: this.abortController.signal,
-          method: this.params.method,
-          headers: headers,
-          credentials: credentials,
-          body: data
-            ? typeof data === "string"
-              ? <string>data
-              : JSON.stringify(data)
-            : null,
-        }),
-      ];
+    let fetchOptions: RequestInit = {
+      signal: this.abortController.signal,
+      method: this.params.method,
+      headers: headers,
+      credentials: credentials,
+    };
 
-      if (this.params.timeout > 0) {
-        promises.push(
-          new Promise<Response>((resolve, reject) => {
-            setTimeout(
-              () => reject(new TimeoutError("the request timed out")),
-              this.params.timeout
-            );
-          })
-        );
-      }
+    if (data) {
+      fetchOptions["body"] =
+        typeof data === "string" ? <string>data : JSON.stringify(data);
+    }
 
-      let response: Response = await Promise.race(promises);
+    let promises = [fetch(this.params.url, fetchOptions)];
 
-      const resolveData = async () => {
-        let text: string = await response.text();
-        let data: R = await response.json();
-        let headers = new Map<string, string>();
-
-        // TODO: not sure if this is just an object ?
-        Object.getOwnPropertyNames(response.headers).forEach(name => {
-          headers.set(name, (<any>response.headers)[name]);
-        });
-
-        return (
-          resolve: HttpRequest.Internal.Resolve<HttpRequest.IResponse<R>>,
-          reject: HttpRequest.Internal.Reject
-        ) => {
-          if (response.ok) {
-            resolve(
-              new HttpResponse<R>(
-                response.status,
-                response.statusText,
-                headers,
-                response.type,
-                text,
-                data
-              )
-            );
-          } else {
-            // TODO: non http or domain fail response
-            reject(
-              new HttpFailResponse(
-                response.status,
-                response.statusText,
-                headers,
-                response.type
-              )
-            );
-          }
-        };
-      };
-
-      return new Promise<HttpRequest.IResponse<R>>(await resolveData());
-    } catch (error) {
-      error = error as Error;
-      
-      promise = new Promise(
-        (
-          resolve: HttpRequest.Internal.Resolve<HttpRequest.IResponse<R>>,
-          reject: HttpRequest.Internal.Reject
-        ) => {
-          reject(error);
-        }
+    if (this.params.timeout > 0) {
+      promises.push(
+        new Promise<Response>((resolve, reject) => {
+          setTimeout(
+            () => reject(new TimeoutError("the request timed out")),
+            this.params.timeout
+          );
+        })
       );
     }
 
-    return promise;
+    const httpResponse: Response = await Promise.race(promises);
+    const response = await this.resolveData(httpResponse);
+
+    return new Promise<HttpRequest.IResponse<R>>((resolve, reject) => {
+      if (response instanceof FailureResponse) {
+        reject(response);
+      } else {
+        resolve(response);
+      }
+    });
   }
 }

@@ -1,9 +1,9 @@
-export default class Reponse<T> implements HttpRequest.IResponse<T> {
-	constructor(private status: number, private statusText: string, private headers: Map<string, string>,
-		private responseType: string, private responseText: string, private responseData: T) {
+export default class SuccessReponse<T> implements HttpRequest.IResponse<T> {
+	constructor(private status: number, private statusText: string, private headers: Record<string, string>,
+		private responseType: string, private responseText: string, private responseData?: T) {
 	}
 
-	public getHeaders(): Map<string, string> {
+	public getHeaders(): Record<string, string> {
 		return this.headers;
 	}
 

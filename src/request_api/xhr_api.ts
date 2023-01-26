@@ -11,7 +11,7 @@ export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R,
             method: "GET",
             url: null,
             credentials: null,
-            headers: new Map<string, string>(),
+            headers: Object.create(null),
             timeout: 0
         }, params);
 
@@ -40,10 +40,6 @@ export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R,
     	this.params.method = method;
     }
 
-    public setHeader(header: string, value: string): void {
-    	this.params.headers.set(header, value);
-    }
-
 	public setTimeout(timeout: number): void {
 		this.params.timeout = timeout;
 	}
@@ -60,7 +56,7 @@ export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R,
 		this.xhr.abort();
 	}
 
-	public async execute(data?: D): Promise<HttpRequest.IResponse<R>> {
+	public async execute(data?: D, additionalHeaders?: Record<string, string>): Promise<HttpRequest.IResponse<R>> {
         if (this.params.credentials) {
             this.xhr.open(this.params.method, this.params.url, true, this.params.credentials.username, this.params.credentials.password);
             this.xhr.withCredentials = true;
@@ -71,8 +67,12 @@ export default class XhrApi<R, D> implements HttpRequest.Internal.IRequestApi<R,
 
         this.xhr.timeout = this.params.timeout;
 
-        this.params.headers.forEach((val, key) => {
-            this.xhr.setRequestHeader(key, val);
+        // overrides param headers
+        let headers = Object.assign<Record<string, string>, Record<string, string>>(Object.create(null), this.params.headers);
+        headers = Object.assign(headers, additionalHeaders);
+        
+        Object.getOwnPropertyNames(headers).forEach(header => {
+            this.xhr.setRequestHeader(header, headers[header]);
         });
 
         const promise = await Promise.any([this.promise, new Promise<HttpRequest.IResponse<R>>((resolve: any, reject: any) => {

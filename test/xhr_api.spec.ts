@@ -1,205 +1,293 @@
-import 'should';
+import "should";
 import { suite, test } from "@testdeck/mocha";
 
-import XhrApi from '../src/request_api/xhr_api';
-import xhrApiFixture from './setup/xhr_api_setup';
-import { fail } from 'should';
+import XhrApi from "../src/request_api/xhr_api";
+import xhrApiFixture from "./setup/xhr_api_setup";
+import { fail } from "should";
 
 @suite("xhr api tests")
 class XhrRequestTests {
-	private api: any;
+  private api: any;
 
-	public static before() {
-	}
+  public static before() {}
 
-	public static after() {
-		global.XMLHttpRequest.restore();
-	}
+  public static after() {
+    global.XMLHttpRequest.restore();
+  }
 
-	public before() {
-		this.api = new XhrApi();
-	}
+  public before() {
+    this.api = new XhrApi();
+  }
 
-	public after() {
-		xhrApiFixture.reset();
-	}
+  public after() {
+    xhrApiFixture.reset();
+  }
 
-	@test("can construct with parameters")
-	public canConstructWithParams() {
-		// arrange, act
-		let api = new XhrApi({ method: "POST", url: "http://fakeRequest.local", timeout: 10000 });
+  @test("can construct with parameters")
+  public canConstructWithParams() {
+    // arrange, act
+    let api = new XhrApi({
+      method: "POST",
+      url: "http://fakeRequest.local",
+      timeout: 10000,
+    });
 
-		// assert
-		api.should.not.be.null();
-	}
+    // assert
+    api.should.not.be.null();
+  }
 
-	@test("can construct without parameters")
-	public canConstructWithoutParams() {
-		// arrange, act
-		let api = new XhrApi();
+  @test("can construct without parameters")
+  public canConstructWithoutParams() {
+    // arrange, act
+    let api = new XhrApi();
 
-		// assert
-		api.should.not.be.null();
-		api["params"].should.not.be.null();
-	}
+    // assert
+    api.should.not.be.null();
+    api["params"].should.not.be.null();
+  }
 
-	@test("can set method")
-	public canSetMethod() {
-		// arrange
-		let method: HttpRequest.Method = "PUT";
+  @test("can set method")
+  public canSetMethod() {
+    // arrange
+    let method: HttpRequest.Method = "PUT";
 
-		// act
-		this.api.setMethod(method);
+    // act
+    this.api.setMethod(method);
 
-		// assert
-		this.api["params"].method.should.be.equal(method);
-	}
+    // assert
+    this.api["params"].method.should.be.equal(method);
+  }
 
-	@test("can set header")
-	public canSetHeader() {
-		// arrange
-		let header: { name: string, value: string; } = { name: "Content-Type", value: "application/json" };
+  @test("set param headers when no additional headers")
+  public async setParamHeaders() {
+    // arrange
+    const headers = {
+      header1: "value 1",
+      header2: "value 2",
+    };
+    this.api["params"].headers = headers;
 
-		// act
-		this.api.setHeader(header.name, header.value);
+    // act
+    await Promise.all([
+      this.api.execute(),
+      new Promise((resolve: any, reject: any) => {
+        xhrApiFixture.xmlHttpRequests[0].respond(200, null, null);
+        resolve();
+      }),
+    ]);
 
-		// assert
-		this.api["params"].headers.should.not.be.empty();
-		this.api["params"].headers.should.have.size(1);
-		this.api["params"].headers.should.have.value(header.name, header.value);
-	}
+    // assert
+    xhrApiFixture.xmlHttpRequests[0].requestHeaders.should.be.deepEqual(
+      headers
+    );
+  }
 
-	@test("can set timeout")
-	public canSetTimeout() {
-		// arrange
-		let timeout = 50000;
+  @test("override param headers with additional headers")
+  public async overrideHeaders() {
+    // arrange
+    const additionalRequestHeaders = {
+      header2: "value 3",
+    };
+    const baseHeaders = {
+      header1: "value 1",
+      header2: "value 2",
+    };
+    const expectedHeaders = {
+      header1: "value 1",
+      header2: "value 3",
+    };
+    this.api["params"].headers = baseHeaders;
 
-		// act
-		this.api.setTimeout(timeout);
+    // act
+    await Promise.all([
+      this.api.execute(null, additionalRequestHeaders),
+      new Promise((resolve: any, reject: any) => {
+        xhrApiFixture.xmlHttpRequests[0].respond(200, null, null);
+        resolve();
+      }),
+    ]);
 
-		// assert
-		this.api["params"].timeout.should.be.equal(timeout);
-	}
+    // assert
+    xhrApiFixture.xmlHttpRequests[0].requestHeaders.should.be.deepEqual(
+      expectedHeaders
+    );
+  }
 
-	@test("can set url")
-	public canSetUrl() {
-		// arrange
-		let url = "http://fakeRequest.local";
+  @test("param headers with additional headers")
+  public async additionalHeaders() {
+    // arrange
+    const additionalRequestHeaders = {
+      header3: "value 3",
+    };
+    const baseHeaders = {
+      header1: "value 1",
+      header2: "value 2",
+    };
+    const expectedHeaders = {
+      header1: "value 1",
+      header2: "value 2",
+      header3: "value 3",
+    };
+    this.api["params"].headers = baseHeaders;
 
-		// act
-		this.api.setUrl(url);
+    // act
+    await Promise.all([
+      this.api.execute(null, additionalRequestHeaders),
+      new Promise((resolve: any, reject: any) => {
+        xhrApiFixture.xmlHttpRequests[0].respond(200, null, null);
+        resolve();
+      }),
+    ]);
 
-		// assert
-		this.api["params"].url.should.be.equal(url);
-	}
+    // assert
+    xhrApiFixture.xmlHttpRequests[0].requestHeaders.should.be.deepEqual(
+      expectedHeaders
+    );
+  }
 
-	@test("can set credentials")
-	public canSetCredentials() {
-		// arrange
-		let credentials = { username: "test", password: "test" };
+  @test("can set timeout")
+  public canSetTimeout() {
+    // arrange
+    let timeout = 50000;
 
-		// act
-		this.api.setCredentials(credentials);
+    // act
+    this.api.setTimeout(timeout);
 
-		// assert
-		this.api["params"].credentials.should.be.equal(credentials);
-	}
+    // assert
+    this.api["params"].timeout.should.be.equal(timeout);
+  }
 
-	@test("will timeout")
-	public async willTimeout() {
-		// arrange
-		let errorType = "timeout";
-		this.api.setTimeout(1000);
+  @test("can set url")
+  public canSetUrl() {
+    // arrange
+    let url = "http://fakeRequest.local";
 
-		try {
-			// act
-			await this.api.execute();
-		} catch (reason: any) {
-			// assert
-			reason.should.be.equal(errorType);
-		}
-	}
+    // act
+    this.api.setUrl(url);
 
-	@test("execute without data")
-	public async executeWithoutData() {
-		// arrange
-		let status = 200;
+    // assert
+    this.api["params"].url.should.be.equal(url);
+  }
 
-		try {
-			// act
-			await Promise.all([this.api.execute(), new Promise((resolve: any, reject: any) => {
-				xhrApiFixture.xmlHttpRequests[0].respond(status, null, null);
-				resolve();
-			})]);
+  @test("can set credentials")
+  public canSetCredentials() {
+    // arrange
+    let credentials = { username: "test", password: "test" };
 
-			// assert
-			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
-			this.api["xhr"].status.should.be.equal(status);
-		} catch (reason: any) {
-			// assert
-			fail("reject path", "resolve path");
-		}
-	}
+    // act
+    this.api.setCredentials(credentials);
 
-	@test("execute with data")
-	public async executeWithData() {
-		// arrange
-		let status = 200;
-		let data = JSON.stringify({ test: "test!" });
+    // assert
+    this.api["params"].credentials.should.be.equal(credentials);
+  }
 
-		try {
-			// act
-			await Promise.all([this.api.execute(data), new Promise((resolve: any, reject: any) => {
-				xhrApiFixture.xmlHttpRequests[0].respond(status, null, data);
-				resolve();
-			})]);
+  @test("will timeout")
+  public async willTimeout() {
+    // arrange
+    let errorType = "timeout";
+    this.api.setTimeout(1000);
 
-			// assert
-			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
-			this.api["xhr"].status.should.be.equal(status);
-		} catch (reason: any) {
-			// assert
-			fail("reject path", "resolve path");
-		}
-	}
+    try {
+      // act
+      await this.api.execute();
+    } catch (reason: any) {
+      // assert
+      reason.should.be.equal(errorType);
+    }
+  }
 
-	@test("execute with error")
-	public async executeWithError() {
-		// arrange
-		let errorType = "error";
-		let status = 0;
+  @test("execute without data")
+  public async executeWithoutData() {
+    // arrange
+    let status = 200;
 
-		try {
-			// act
-			await Promise.all([this.api.execute(), new Promise((resolve: any, reject: any) => {
-				xhrApiFixture.xmlHttpRequests[0].error();
-				resolve();
-			})]);
-		} catch (reason: any) {
-			// assert
-			reason.should.be.equal(errorType);
-			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
-			this.api["xhr"].status.should.be.equal(status);
-		}
-	}
+    try {
+      // act
+      await Promise.all([
+        this.api.execute(),
+        new Promise((resolve: any, reject: any) => {
+          xhrApiFixture.xmlHttpRequests[0].respond(status, null, null);
+          resolve();
+        }),
+      ]);
 
-	@test("can abort request")
-	public async canAbortRequest() {
-		// arrange
-		let errorType = "abort";
-		let status = 0;
+      // assert
+      this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
+      this.api["xhr"].status.should.be.equal(status);
+    } catch (reason: any) {
+      // assert
+      fail("reject path", "resolve path");
+    }
+  }
 
-		try {
-			// act
-			await Promise.all([this.api.execute(), new Promise((resolve: any, reject: any) => {
-				this.api.abort();
-				resolve();
-			})]);
-		} catch (reason: any) {
-			// assert
-			reason.should.be.equal(errorType);
-			this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.UNSENT);
-			this.api["xhr"].status.should.be.equal(status);
-		}
-	}
+  @test("execute with data")
+  public async executeWithData() {
+    // arrange
+    let status = 200;
+    let data = JSON.stringify({ test: "test!" });
+
+    try {
+      // act
+      await Promise.all([
+        this.api.execute(data),
+        new Promise((resolve: any, reject: any) => {
+          xhrApiFixture.xmlHttpRequests[0].respond(status, null, data);
+          resolve();
+        }),
+      ]);
+
+      // assert
+      this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
+      this.api["xhr"].status.should.be.equal(status);
+    } catch (reason: any) {
+      // assert
+      fail("reject path", "resolve path");
+    }
+  }
+
+  @test("execute with error")
+  public async executeWithError() {
+    // arrange
+    let errorType = "error";
+    let status = 0;
+
+    try {
+      // act
+      await Promise.all([
+        this.api.execute(),
+        new Promise((resolve: any, reject: any) => {
+          xhrApiFixture.xmlHttpRequests[0].error();
+          resolve();
+        }),
+      ]);
+    } catch (reason: any) {
+      // assert
+      reason.should.be.equal(errorType);
+      this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
+      this.api["xhr"].status.should.be.equal(status);
+    }
+  }
+
+  @test("can abort request")
+  public async canAbortRequest() {
+    // arrange
+    let errorType = "abort";
+    let status = 0;
+
+    try {
+      // act
+      await Promise.all([
+        this.api.execute(),
+        new Promise((resolve: any, reject: any) => {
+          this.api.abort();
+          resolve();
+        }),
+      ]);
+    } catch (reason: any) {
+      // assert
+      reason.should.be.equal(errorType);
+      this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.UNSENT);
+      this.api["xhr"].status.should.be.equal(status);
+    }
+  }
 }

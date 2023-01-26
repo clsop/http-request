@@ -95,8 +95,8 @@ describe("http request tests", () => {
       request.setHeader(header.name, header.value);
 
       // asssert
-      request["parameters"].headers.should.have.property("size").equal(1);
-      // TODO: check value
+      (header.name in request["parameters"].headers).should.be.True();
+      request["parameters"].headers[header.name].should.be.equal(header.value);
     }
 
     @test("should throw exception when header is already present")
@@ -171,8 +171,8 @@ describe("http request tests", () => {
     }
   }
 
-  @suite("send method")
-  class Send {
+  @suite("execute method")
+  class Execute {
     @test("should not throw exception when valid url")
     public validUrl() {
       // arrange

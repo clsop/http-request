@@ -3,9 +3,10 @@ import "should";
 import { suite, test } from "@testdeck/mocha";
 
 import FetchApi from "../src/request_api/fetch_api";
-import Response from "../src/response";
-import FailResponse from "../src/fail_response";
+import SuccessResponse from "../src/succes_response";
+import FailureResponse from "../src/failure_response";
 import fetchApiFixture from "./setup/fetch_api_setup";
+import HttpResponseError from "../src/exceptions/http_response_error";
 
 @suite("fetch api tests")
 class FetchApiTests {
@@ -54,23 +55,6 @@ class FetchApiTests {
 
     // assert
     this.api["params"].method.should.be.equal(method);
-  }
-
-  @test("can set header")
-  public canSetHeader() {
-    // arrange
-    let header: { name: string; value: string } = {
-      name: "Content-Type",
-      value: "application/json",
-    };
-
-    // act
-    this.api.setHeader(header.name, header.value);
-
-    // assert
-    this.api["params"].headers.should.not.be.empty();
-    this.api["params"].headers.should.have.size(1);
-    this.api["params"].headers.should.have.value(header.name, header.value);
   }
 
   @test("can set timeout")
@@ -139,15 +123,11 @@ class FetchApiTests {
     // arrange
     let responseText = "test";
     let responseData = { test: "test" };
-    let response = {
+    let response: Response = new Response(null, {
       status: 200,
       statusText: "Ok",
-      headers: {},
-      ok: true,
-      type: "basic",
-      text: () => {},
-      json: () => {},
-    };
+      headers: new Headers(),
+    });
 
     let responseMock = sinon.mock(response);
     responseMock.expects("text").resolves(responseText);
@@ -156,12 +136,12 @@ class FetchApiTests {
     fetchApiFixture.fetchSpy.resolves(response);
 
     // act
-    const result: Response<typeof responseData> = await this.api.execute();
+    const result: SuccessResponse<typeof responseData> =
+      await this.api.execute();
 
     // assert
     result.getStatus().should.be.equal(response.status);
     result.getStatusText().should.be.equal(response.statusText);
-    result.getResponseType().should.be.equal(response.type);
     result.getResponseText().should.be.equal(responseText);
     result.getResponseData().should.be.equal(responseData);
 
@@ -174,15 +154,11 @@ class FetchApiTests {
     let responseText = "test";
     let responseData = { test: "test" };
     let requestData = { test2: "test2" };
-    let response = {
+    let response = new Response(null, {
       status: 200,
       statusText: "Ok",
-      headers: {},
-      ok: true,
-      type: "basic",
-      text: () => {},
-      json: () => {},
-    };
+      headers: new Headers(),
+    });
 
     let responseMock = sinon.mock(response);
     responseMock.expects("text").resolves(responseText);
@@ -196,12 +172,103 @@ class FetchApiTests {
     // assert
     result.getStatus().should.be.equal(response.status);
     result.getStatusText().should.be.equal(response.statusText);
-    result.getResponseType().should.be.equal(response.type);
     result.getResponseText().should.be.equal(responseText);
     result.getResponseData().should.be.equal(responseData);
 
-    fetchApiFixture.fetchSpy.calledWithMatch(this.url, { body: JSON.stringify(requestData) }).should.be.True();
+    fetchApiFixture.fetchSpy
+      .calledWithMatch(this.url, { body: JSON.stringify(requestData) })
+      .should.be.True();
     responseMock.verify();
+  }
+
+  @test("set param headers when no additional headers")
+  public async setParamHeaders() {
+    // arrange
+    const headers = {
+      header1: "value 1",
+      header2: "value 2",
+    };
+    this.api["params"].headers = headers;
+
+    const response = new Response(null, {
+      status: 200,
+    });
+    fetchApiFixture.fetchSpy.resolves(response);
+
+    // act
+    await this.api.execute();
+
+    // assert
+    fetchApiFixture.fetchSpy
+      .calledWithMatch(this.url, {
+        headers: headers,
+      })
+      .should.be.True();
+  }
+
+  @test("override param headers with additional headers")
+  public async overrideHeaders() {
+    // arrange
+    const additionalRequestHeaders = {
+      header2: "value 3",
+    };
+    const baseHeaders = {
+      header1: "value 1",
+      header2: "value 2",
+    };
+    const expectedHeaders = {
+      header1: "value 1",
+      header2: "value 3",
+    };
+    this.api["params"].headers = baseHeaders;
+
+    const response = new Response(null, {
+      status: 200,
+    });
+    fetchApiFixture.fetchSpy.resolves(response);
+
+    // act
+    await this.api.execute(null, additionalRequestHeaders);
+
+    // assert
+    fetchApiFixture.fetchSpy
+      .calledWithMatch(this.url, {
+        headers: expectedHeaders,
+      })
+      .should.be.True();
+  }
+
+  @test("param headers with additional headers")
+  public async additionalHeaders() {
+    // arrange
+    const additionalRequestHeaders = {
+      header3: "value 3",
+    };
+    const baseHeaders = {
+      header1: "value 1",
+      header2: "value 2",
+    };
+    const expectedHeaders = {
+      header1: "value 1",
+      header2: "value 2",
+      header3: "value 3",
+    };
+    this.api["params"].headers = baseHeaders;
+
+    const response = new Response(null, {
+      status: 200,
+    });
+    fetchApiFixture.fetchSpy.resolves(response);
+
+    // act
+    await this.api.execute(null, additionalRequestHeaders);
+
+    // assert
+    fetchApiFixture.fetchSpy
+      .calledWithMatch(this.url, {
+        headers: expectedHeaders,
+      })
+      .should.be.True();
   }
 
   @test("execute with server error")
@@ -209,7 +276,7 @@ class FetchApiTests {
     // arrange
     let errorObj: Error = {
       name: "Server Error",
-      message: "Error"
+      message: "Error",
     };
 
     fetchApiFixture.fetchSpy.rejects(errorObj);
@@ -226,40 +293,27 @@ class FetchApiTests {
     }
   }
 
-  @test.pending("execute with custom error")
-  public async executeWithCustomError() {
+  @test("response other than succes response")
+  public async executeWithNonOk() {
     // arrange
-    let responseText = "error";
-    let responseData = { message: "error" };
-    let response = {
-      status: 500,
-      statusText: "Error",
-      headers: {},
-      ok: false,
-      type: "basic",
-      text: () => {},
-      json: () => {},
-    };
+    let response = new Response(null, {
+      status: 401,
+      statusText: "Unauthorized",
+    });
 
-    let responseMock = sinon.mock(response);
-    // responseMock.expects("text").resolves(responseText);
-    // responseMock.expects("json").resolves(responseData);
-
-    fetchApiFixture.fetchSpy.rejects(response);
+    fetchApiFixture.fetchSpy.resolves(response);
 
     // act
     try {
       await this.api.execute();
     } catch (error) {
-      const failResponse = error as FailResponse;
+      const failureResponse = error as HttpRequest.IFailureResponse;
 
       // assert
-      failResponse.isServerError().should.be.True();
-      failResponse.getStatus().should.be.equal(response.status);
-      failResponse.getStatusText().should.be.equal(response.statusText);
-      failResponse.getResponseType().should.be.equal(response.type);
-
-      responseMock.verify();
+      failureResponse.isServerError().should.be.False();
+      failureResponse.isNotFound().should.be.False();
+      failureResponse.isForbidden().should.be.False();
+      failureResponse.isUnauthorized().should.be.True();
     }
   }
 
