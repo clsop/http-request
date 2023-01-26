@@ -14,6 +14,6 @@ export default class Params {
 		this.useCredentials = useCredentials;
 		this.username = username ?? null;
 		this.password = password ?? null;
-		this.headers = Object.create(null);
+		this.headers = {};
     }
 }
