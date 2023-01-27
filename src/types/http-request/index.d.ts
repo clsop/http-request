@@ -26,27 +26,23 @@ declare namespace HttpRequest.Internal {
 
 declare namespace HttpRequest {
 	interface IResponse<T> {
-		getHeaders(): Record<string, string>;
-		getStatus(): number;
-		getStatusText(): string;
-		getResponseText(): string;
-		getResponseType(): string;
-		getResponseData(): T;
+		get headers(): Record<string, string>;
+		get status(): number;
+		get statusText(): string;
+		get responseText(): string;
+		get responseType(): string;
+		get responseData(): T;
 	}
 
 	interface IFailureResponse extends IResponse<never> {
-		isServerError(): boolean;
-		isNotFound(): boolean;
-		isUnauthorized(): boolean;
-		isForbidden(): boolean;
+		get isServerError(): boolean;
+		get isNotFound(): boolean;
+		get isUnauthorized(): boolean;
+		get isForbidden(): boolean;
 	}
 
 	interface IHttpRequestError extends Error {
 		toString(): string;
-	}
-
-	interface IHttpResponseError extends IHttpRequestError {
-		getResponseType(): string;
 	}
 
 	interface IParams {

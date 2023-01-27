@@ -223,22 +223,26 @@ class XhrRequestTests {
   @test("execute with data")
   public async executeWithData() {
     // arrange
-    let status = 200;
-    let data = JSON.stringify({ test: "test!" });
+    const status = 200;
+    const data = { test: "test!" };
+    const responseData = JSON.stringify(data);
 
     try {
       // act
       await Promise.all([
         this.api.execute(data),
         new Promise((resolve: any, reject: any) => {
-          xhrApiFixture.xmlHttpRequests[0].respond(status, null, data);
+          xhrApiFixture.xmlHttpRequests[0].respond(status, null, responseData);
           resolve();
         }),
       ]);
 
       // assert
-      this.api["xhr"].readyState.should.be.equal(XMLHttpRequest.DONE);
-      this.api["xhr"].status.should.be.equal(status);
+      const xhr = this.api["xhr"] as XMLHttpRequest;
+      const parsedResponseData = JSON.parse(xhr.response) as typeof data;
+      xhr.readyState.should.be.equal(XMLHttpRequest.DONE);
+      xhr.status.should.be.equal(status);
+      parsedResponseData.should.be.deepEqual(data);
     } catch (reason: any) {
       // assert
       fail("reject path", "resolve path");

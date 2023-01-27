@@ -4,9 +4,7 @@ import { suite, test } from "@testdeck/mocha";
 
 import FetchApi from "../src/request_api/fetch_api";
 import SuccessResponse from "../src/succes_response";
-import FailureResponse from "../src/failure_response";
 import fetchApiFixture from "./setup/fetch_api_setup";
-import HttpResponseError from "../src/exceptions/http_response_error";
 
 @suite("fetch api tests")
 class FetchApiTests {
@@ -126,7 +124,9 @@ class FetchApiTests {
     let response: Response = new Response(null, {
       status: 200,
       statusText: "Ok",
-      headers: new Headers(),
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
     });
 
     let responseMock = sinon.mock(response);
@@ -140,10 +140,10 @@ class FetchApiTests {
       await this.api.execute();
 
     // assert
-    result.getStatus().should.be.equal(response.status);
-    result.getStatusText().should.be.equal(response.statusText);
-    result.getResponseText().should.be.equal(responseText);
-    result.getResponseData().should.be.equal(responseData);
+    result.status.should.be.equal(response.status);
+    result.statusText.should.be.equal(response.statusText);
+    result.responseText.should.be.equal(responseText);
+    result.responseData.should.be.equal(responseData);
 
     responseMock.verify();
   }
@@ -167,13 +167,13 @@ class FetchApiTests {
     fetchApiFixture.fetchSpy.resolves(response);
 
     // act
-    const result = await this.api.execute(requestData);
+    const result: SuccessResponse<typeof responseData> = await this.api.execute(requestData);
 
     // assert
-    result.getStatus().should.be.equal(response.status);
-    result.getStatusText().should.be.equal(response.statusText);
-    result.getResponseText().should.be.equal(responseText);
-    result.getResponseData().should.be.equal(responseData);
+    result.status.should.be.equal(response.status);
+    result.statusText.should.be.equal(response.statusText);
+    result.responseText.should.be.equal(responseText);
+    result.responseData.should.be.equal(responseData);
 
     fetchApiFixture.fetchSpy
       .calledWithMatch(this.url, { body: JSON.stringify(requestData) })
@@ -310,10 +310,10 @@ class FetchApiTests {
       const failureResponse = error as HttpRequest.IFailureResponse;
 
       // assert
-      failureResponse.isServerError().should.be.False();
-      failureResponse.isNotFound().should.be.False();
-      failureResponse.isForbidden().should.be.False();
-      failureResponse.isUnauthorized().should.be.True();
+      failureResponse.isServerError.should.be.False();
+      failureResponse.isNotFound.should.be.False();
+      failureResponse.isForbidden.should.be.False();
+      failureResponse.isUnauthorized.should.be.True();
     }
   }
 

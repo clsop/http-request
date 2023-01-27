@@ -40,23 +40,27 @@ describe("http request tests", () => {
       request["api"].should.be.instanceof(XhrApi);
     }
 
-    @test("should throw error if selected api is not available")
-    public throwWhenNotAvailable() {
+    @test("should fallback to xhr with warning when fetch is not available")
+    public fallbackWhenNotAvailable() {
       // arrange
-      let apiSelection: HttpRequest.Api = "FETCH";
-
+      const apiSelection: HttpRequest.Api = "FETCH";
+      const consoleSpy = sinon.spy(console, "warn");
       delete global.fetch;
 
       // act
-      let expectation = () => new HttpRequest({}, apiSelection);
+      const httpRequest = new HttpRequest(null, apiSelection);
 
       // assert
-      expectation.should.throw(Error, { name: "api" });
+      httpRequest["api"].should.be.instanceof(XhrApi);
+      consoleSpy.calledOnce.should.be.True();
     }
 
-    @test.skip
-    //@test("should use web workers if available")
-    public useWebWorkers() {}
+    @test.pending("should use web workers if available")
+    public useWebWorkers() {
+      // arrange
+      // act
+      // assert
+    }
   }
 
   @suite("setPatience method")

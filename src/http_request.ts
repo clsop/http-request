@@ -1,7 +1,6 @@
 import ErrorMessage from "./errors";
 import HttpRequestError from "./exceptions/http_request_error";
 
-import ApiError from "./exceptions/api_error";
 import XhrApi from "./request_api/xhr_api";
 import FetchApi from "./request_api/fetch_api";
 
@@ -18,8 +17,12 @@ export class HttpRequest<R, D> {
     switch (api) {
       case "FETCH":
         {
-          if (!("fetch" in globalThis))
-            throw new ApiError("fetch api is not available");
+          if (!("fetch" in globalThis)) {
+            console.warn("fetch api is not available, using xhr instead.");
+            this.api = xhrApi();
+            break;
+          }
+            
           this.api = fetchApi();
         }
         break;

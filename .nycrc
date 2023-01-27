@@ -9,7 +9,7 @@
   "functions": 75,
   "statements": 75,
   "include": ["src/**/*.ts"],
-  "exclude": [ "src/index.ts", "src/test/**/*.*"],
+  "exclude": [ "src/index.ts", "src/types/http-request/index.d.ts", "src/test/**/*.*"],
   "reporter": ["html", "lcov", "text", "text-summary"],
   "report-dir": "coverage"
 }
