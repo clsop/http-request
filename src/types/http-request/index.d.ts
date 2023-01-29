@@ -75,7 +75,19 @@ declare namespace HttpRequest {
 		setHeader(header: string, value: string): void;
 		setCredentials(credentials: Credentials): void;
 		abort(): void;
-		send(method?: Method, data?: D): Promise<IResponse<R>>;
+		execute(method?: Method, data?: D, additionalHeaders?: Record<string, string>): Promise<IResponse<R>>;
+	}
+
+	class HttpRequest<R, D> implements IHttpRequest<R, D>
+	{
+		constructor(parameters?: HttpRequest.IParameters, api?: HttpRequest.Api);
+
+		setPatience(eagerness: Eagerness): void;
+		setUrl(url: string): void;
+		setHeader(header: string, value: string): void;
+		setCredentials(credentials: Credentials): void;
+		abort(): void;
+		execute(method?: Method, data?: D, additionalHeaders?: Record<string, string>): Promise<IResponse<R>>;
 	}
 
 	/**
@@ -84,6 +96,6 @@ declare namespace HttpRequest {
 	 */
 	type Eagerness = "NOW" | "NO_HURRY" | "HURRY" | "PATIENT" | "REAL_PATIENT" | "WHENEVER";
 
-	type Api = "FETCH" | "XHR"; // "WEBSOCKET"
+	type Api = "FETCH" | "XHR";
 	type Method = "GET" | "POST" | "PUT" | "HEAD" | "OPTIONS" | "PATCH" | "DELETE";
 }
