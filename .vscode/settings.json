@@ -1,4 +1,12 @@
 {
-    "javascript.implicitProjectConfig.experimentalDecorators": true,
-    "typescript.locale": "en"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "typescript.locale": "en",
+    "javascript.format.semicolons": "insert",
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "typescript.tsserver.log": "normal",
+    "typescript.enablePromptUseWorkspaceTsdk": false,
+    "typescript.format.semicolons": "insert",
+    "typescript.implementationsCodeLens.enabled": true,
+    "prettier.enable": true,
 }

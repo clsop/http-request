@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "NodeNext",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false
+  },
+  "include": ["../src/**/*.ts"],
+  "exclude": ["../node_modules", "../test", "../global.d.ts"]
+}

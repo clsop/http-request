@@ -1,9 +1,10 @@
-declare namespace NodeJS  {
-    interface Global {
-		AbortController: () => { abort: () => void };
-		Headers: () => Map<string, string>;
-		window: { fetch: (input: string | Request, init?: any) => void };
-		fetch: (input: string | Request, init?: any) => void;
-		XMLHttpRequest: sinon.SinonFakeXMLHttpRequestStatic;
-    }
+declare namespace NodeJS {
+  interface Global {
+    AbortController: typeof AbortController;
+    fetch: () => void;
+    XMLHttpRequest: sinon.SinonFakeXMLHttpRequestStatic;
+    window: Window;
+  }
 }
+
+declare var global: NodeJS.Global;

@@ -1,28 +1,3 @@
-// /// promise stuff
-// type Resolve<T> = (value?: T | PromiseLike<T>) => void;
-// type Reject = (reason?: any) => void;
-
-// type Resolver<T> = (value?: T | PromiseLike<T> | null | string) => void;
-
-// interface IParamsInternal extends Http.IParams {
-// 	timeout?: number;
-// }
-
-// /**
-//  * Interface for request api implementations
-//  * @type {R} returned data model
-//  * @type {D} request data model
-//  */
-// interface IRequestApi<R, D> {
-// 	setHeader(header: string, value: string): void;
-// 	setTimeout(timeout: number): void;
-// 	setUrl(url: string): void;
-// 	setMethod(method: Http.Method): void;
-// 	setCredentials(credentials: Http.Credentials): void;
-// 	abort(): void;
-// 	execute(data?: D): Promise<Http.IResponse<R>>;
-// }
-
 declare namespace HttpRequest.Internal {
 	/// promise stuff
 	type Resolve<T> = (value?: T | PromiseLike<T>) => void;
@@ -40,43 +15,40 @@ declare namespace HttpRequest.Internal {
 		 * @type {D} request data model
 		 */
 	interface IRequestApi<R, D> {
-		setHeader(header: string, value: string): void;
 		setTimeout(timeout: number): void;
 		setUrl(url: string): void;
 		setMethod(method: HttpRequest.Method): void;
 		setCredentials(credentials: HttpRequest.Credentials): void;
 		abort(): void;
-		execute(data?: D): Promise<HttpRequest.IResponse<R>>;
+		execute(data?: D, additionalHeaders?: Record<string, string>): Promise<HttpRequest.IResponse<R>>;
 	}
 }
 
 declare namespace HttpRequest {
 	interface IResponse<T> {
-		getHeaders(): Map<string, string>;
-		getStatus(): number;
-		getStatusText(): string;
-		getResponseText(): string;
-		getResponseType(): string;
-		getResponseData(): T;
+		get headers(): Record<string, string>;
+		get status(): number;
+		get statusText(): string;
+		get responseText(): string;
+		get responseType(): string;
+		get responseData(): T;
 	}
 
-	interface IFailResponse<T> extends IResponse<T> {
-		isServerError(): boolean;
-		isNotFound(): boolean;
+	interface IFailureResponse extends IResponse<never> {
+		get isServerError(): boolean;
+		get isNotFound(): boolean;
+		get isUnauthorized(): boolean;
+		get isForbidden(): boolean;
 	}
 
 	interface IHttpRequestError extends Error {
 		toString(): string;
 	}
 
-	interface IHttpResponseError extends IHttpRequestError {
-		getResponseType(): string;
-	}
-
 	interface IParams {
 		method?: Method;
 		url?: string;
-		headers?: Map<string, string>;
+		headers?: Record<string, string>;
 		credentials?: Credentials;
 	}
 
@@ -112,6 +84,6 @@ declare namespace HttpRequest {
 	 */
 	type Eagerness = "NOW" | "NO_HURRY" | "HURRY" | "PATIENT" | "REAL_PATIENT" | "WHENEVER";
 
-	type Api = "FETCH" | "XHR";
+	type Api = "FETCH" | "XHR"; // "WEBSOCKET"
 	type Method = "GET" | "POST" | "PUT" | "HEAD" | "OPTIONS" | "PATCH" | "DELETE";
 }
